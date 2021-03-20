@@ -89,6 +89,9 @@ public class FishBehavior : MonoBehaviour
 
     public PlayerBehavior player;
 
+    public GameObject spikePrefab;
+    public Transform[] spikeSpawnPositions;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -170,7 +173,7 @@ public class FishBehavior : MonoBehaviour
         if (canMove)
         {
             // rigidbody.MovePosition(rigidbody.position + new Vector2(moveSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime * bobAmount * Mathf.Sin(Time.time * 20.0f)));
-            rigidbody.AddForce(new Vector2(moveSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime * bobAmount * Mathf.Sin(Time.time * 20.0f)));
+            rigidbody.AddForce(new Vector2(moveSpeed * Time.fixedDeltaTime, 0f/*Time.fixedDeltaTime * bobAmount * Mathf.Sin(Time.time * 20.0f)*/));
             if (rigidbody.velocity.x > maxXVelocity)
             {
                 rigidbody.velocity = new Vector2(maxXVelocity, rigidbody.velocity.y);
@@ -217,8 +220,8 @@ public class FishBehavior : MonoBehaviour
 
     void SelectFishAttack()
     {
-        attackID = Random.Range(1, 2);
-        //attackID = Random.Range(0, 3);
+        //attackID = Random.Range(2, 3);
+        attackID = Random.Range(0, 3);
     }
 
     /**
@@ -288,6 +291,17 @@ public class FishBehavior : MonoBehaviour
     void FishAttack03()
     {
         Debug.Log("Fish attacking...");
+
+        StartCoroutine(SpikeSpawn());
+    }
+
+    public IEnumerator SpikeSpawn()
+    {
+        Instantiate(spikePrefab, spikeSpawnPositions[0]);
+        yield return new WaitForSeconds(.5f);
+        Instantiate(spikePrefab, spikeSpawnPositions[1]);
+        yield return new WaitForSeconds(.5f);
+        Instantiate(spikePrefab, spikeSpawnPositions[2]);
     }
 
     public void DecreaseHealth(float damage)

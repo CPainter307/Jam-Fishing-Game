@@ -14,7 +14,8 @@ public class PlayerLineController : MonoBehaviour
     public Cinemachine.CinemachineVirtualCamera vcam;
 
     [HideInInspector] public bool reeling = false;
-    public float reelSpeed = 5f;
+    public float reelInSpeed = 5f;
+    public float reelOutSpeed = 15f;
 
     public float maxReel = 5f;
     public float minReel = 20f;
@@ -95,13 +96,13 @@ public class PlayerLineController : MonoBehaviour
         if (!reeling)
         {
             if (reelCircle.radius < minReel)
-                reelCircle.radius += reelSpeed * Time.deltaTime;
+                reelCircle.radius += reelOutSpeed * Time.deltaTime;
         }
         else
         {
             GameObject.FindObjectOfType<FishBehavior>().DecreaseHealth(2f);
             if (reelCircle.radius > maxReel)
-                reelCircle.radius -= reelSpeed * Time.deltaTime;
+                reelCircle.radius -= reelInSpeed * Time.deltaTime;
         }
     }
 }

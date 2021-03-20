@@ -31,7 +31,17 @@ public class Boat : MonoBehaviour
         {
             WaterManager.instance.SwapFirstWithLast();
 
-            
+
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "FishSpike")
+        {
+            print("test");
+            GameObject.FindObjectOfType<PlayerBehavior>().attached = false;
+            GameObject.FindObjectOfType<PlayerBehavior>().OnDeath();
         }
     }
 

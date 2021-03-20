@@ -67,7 +67,7 @@ public class PlayerBehavior : MonoBehaviour
         }
     }
 
-    private void OnDeath()
+    public void OnDeath()
     {
         die = true;
 
