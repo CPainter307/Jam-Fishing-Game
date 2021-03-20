@@ -286,6 +286,18 @@ PrefabInstance:
       propertyPath: StartPoint
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8969256186061210124, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
+      propertyPath: maxReel
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969256186061210124, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
+      propertyPath: minReel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969256186061210124, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
+      propertyPath: reelSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
 --- !u!4 &6910363914674306162 stripped

@@ -10,6 +10,12 @@ public class PlayerLineController : MonoBehaviour
     public Boat boat;
     [HideInInspector] public RopeBridge ropeBridge;
 
+    [HideInInspector] public bool reeling = false;
+    public float reelSpeed = 5f;
+
+    public float maxReel = 5f;
+    public float minReel = 20f;
+
     private void Awake()
     {
         if (instance == null)
@@ -30,7 +36,7 @@ public class PlayerLineController : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(pole.transform.position, reelCircle.transform.position) > reelCircle.radius)
+        if (Vector3.Distance(pole.lineAttachPoint.transform.position, reelCircle.transform.position) > reelCircle.radius)
         {
             ropeBridge.scaleFactor = -1;
             boat.transform.position = reelCircle.ClosestPoint(boat.transform.position);
@@ -40,6 +46,17 @@ public class PlayerLineController : MonoBehaviour
             ropeBridge.scaleFactor = 50;
         }
 
-        // if ()
+        reeling = Input.GetButton("Jump");
+
+        if (!reeling)
+        {
+            if (reelCircle.radius < minReel)
+                reelCircle.radius += reelSpeed * Time.deltaTime;
+        }
+        else
+        {
+            if (reelCircle.radius > maxReel)
+                reelCircle.radius -= reelSpeed * Time.deltaTime;
+        }
     }
 }
