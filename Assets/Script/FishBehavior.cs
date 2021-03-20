@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class FishBehavior : MonoBehaviour
 {
+    // Stores the fish's maximum health.
+    public float maxFishHealth;
+
+    // Stores the fish's current health.
+    float currentHealth;
+
     /**
      * Stores the current timer being checked by the fish's behavior. Once the timer
      * reaches this number, the next phase starts and the currentTimer changes.
@@ -25,6 +31,14 @@ public class FishBehavior : MonoBehaviour
      * gets lower, nextAttackTime gets closer and closer to this (threshhold based).
      **/
     public float minNextAttackTime;
+
+    // A value representing a third of the difference between nextAttackTime and minNextAttackTime.
+    float attackTimeThird;
+
+    // Booleans that allow nextAttackTime to only change once per threshhold.
+    bool changeTime1 = false;
+    bool changeTime2 = false;
+    bool changeTime3 = false;
 
     // Stores the current attack time.
     float attackTime;
@@ -61,9 +75,11 @@ public class FishBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentHealth = maxFishHealth;
         currentTime = 0f;
         currentTimer = nextAttackTime;
         timerID = 0;
+        attackTimeThird = ((nextAttackTime - minNextAttackTime) / 3f);
     }
 
     // Update is called once per frame
@@ -71,6 +87,7 @@ public class FishBehavior : MonoBehaviour
     {
         DecreaseNextAttackTime();
         RunTimer();
+        DecreaseHealth();
         if (currentTime >= currentTimer)
         {
             switch (timerID)
@@ -143,15 +160,49 @@ public class FishBehavior : MonoBehaviour
         attackID = Random.Range(0, 3);
     }
 
+    /**
+     * Here, have nextAttackTime get closer to minNextAttackTime
+     * based on how much health the fish has left. I think a threshhold
+     * system, where the number decriments based on percentage of the
+     * fish's health (like 100%, 75%, 50%, 25%, etc.).
+     **/
     void DecreaseNextAttackTime()
     {
-        /**
-         * STUB
-         * Here, have nextAttackTime get closer to minNextAttackTime
-         * based on how much health the fish has left. I think a threshhold
-         * system, where the number decriments based on percentage of the
-         * fish's health (like 100%, 75%, 50%, 25%, etc.).
-         **/
+        // Fish health between 75% and 51%.
+        if (currentHealth <= (maxFishHealth * 0.75)
+            && currentHealth > (maxFishHealth * 0.50))
+        {
+            if (!changeTime1)
+            {
+                nextAttackTime = nextAttackTime - attackTimeThird;
+                changeTime1 = true;
+                Debug.Log("nextAttackTime updated to " + nextAttackTime + " seconds.");
+            }
+        }
+
+        // Fish health between 50% and 26%.
+        if (currentHealth <= (maxFishHealth * 0.50)
+            && currentHealth > (maxFishHealth * 0.25))
+        {
+            if (!changeTime2)
+            {
+                nextAttackTime = nextAttackTime - attackTimeThird;
+                changeTime2 = true;
+                Debug.Log("nextAttackTime updated to " + nextAttackTime + " seconds.");
+            }
+        }
+
+        // Fish health between 25% and 0%.
+        if (currentHealth <= (maxFishHealth * 0.25)
+            && currentHealth > (maxFishHealth * 0.00))
+        {
+            if (!changeTime3)
+            {
+                nextAttackTime = minNextAttackTime;
+                changeTime3 = true;
+                Debug.Log("nextAttackTime updated to " + nextAttackTime + " seconds.");
+            }
+        }
     }
 
     void FishAttack01()
@@ -167,5 +218,15 @@ public class FishBehavior : MonoBehaviour
     void FishAttack03()
     {
         Debug.Log("Fish attacking...");
+    }
+
+    void DecreaseHealth()
+    {
+        /**
+        if (Input.GetKey(KeyCode.Q))
+        {
+            currentHealth -= Time.deltaTime;
+        }
+        **/
     }
 }
