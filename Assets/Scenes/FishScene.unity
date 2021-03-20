@@ -235,12 +235,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6feb7440e3c956b40b3871695258c32d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimeToNextAttack: 0
-  attack01Time: 0
-  attack02Time: 0
-  attack03Time: 0
+  maxFishHealth: 100
+  nextAttackTime: 8
+  minNextAttackTime: 2
+  attack01Time: 3
+  attack02Time: 4
+  attack03Time: 5
   preAttackRangeLow: 0
-  preAttackRangeHigh: 0
+  preAttackRangeHigh: 1
 --- !u!4 &2102678123
 Transform:
   m_ObjectHideFlags: 0
