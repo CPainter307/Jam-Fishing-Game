@@ -434,10 +434,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e40c786a73df5c44a2dc93b4ea736dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalNodePos: {x: 0, y: 0}
   springconstant: 0.02
   damping: 0.04
   spread: 0.05
   z: -1
+  totalNodes: 0
+  totalEdges: 0
+  TotalWidth: 0
+  LeftBound: 0
   splash: {fileID: 0}
   mat: {fileID: 2100000, guid: 9f3725c8d7eb68f43ad435d5a1e09484, type: 2}
   watermesh: {fileID: 2579246597152701453, guid: 3495c78684457e644ba07bcd23fa24c1, type: 3}
@@ -472,32 +477,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3180625751883111322}
     - target: {fileID: 433096326333192130, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
+      propertyPath: rotatePower
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 433096326333192130, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
       propertyPath: rotateSpeed
       value: 0.001
-      objectReference: {fileID: 0}
-    - target: {fileID: 433096326333192156, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 433096326333192156, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 433096326333192156, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 433096326333192156, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
-      propertyPath: m_Constraints
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 433096326333192156, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
-      propertyPath: m_UseAutoMass
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 433096326333192156, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
-      propertyPath: m_GravityScale
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 433096326333192158, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
       propertyPath: m_RootOrder
@@ -543,6 +528,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2681045281277156884, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
+      propertyPath: m_ConnectedRigidBody
+      value: 
+      objectReference: {fileID: 3180625751883111327}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80065029a5101f04791d35b0c7fbc1cb, type: 3}
 --- !u!1001 &1690588551597966271
@@ -559,6 +548,10 @@ PrefabInstance:
     - target: {fileID: 4275595076180449314, guid: dae64f6966eebe94294eb6611f0ce265, type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275595076180449314, guid: dae64f6966eebe94294eb6611f0ce265, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 31.1
       objectReference: {fileID: 0}
     - target: {fileID: 4275595076180449314, guid: dae64f6966eebe94294eb6611f0ce265, type: 3}
       propertyPath: m_LocalPosition.x
@@ -600,6 +593,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4275595076180449315, guid: dae64f6966eebe94294eb6611f0ce265, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275595076180449315, guid: dae64f6966eebe94294eb6611f0ce265, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4275595076180449317, guid: dae64f6966eebe94294eb6611f0ce265, type: 3}
       propertyPath: m_Name
       value: Boat
@@ -609,5 +610,10 @@ PrefabInstance:
 --- !u!1 &3180625751883111322 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4275595076180449317, guid: dae64f6966eebe94294eb6611f0ce265, type: 3}
+  m_PrefabInstance: {fileID: 1690588551597966271}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &3180625751883111327 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4275595076180449315, guid: dae64f6966eebe94294eb6611f0ce265, type: 3}
   m_PrefabInstance: {fileID: 1690588551597966271}
   m_PrefabAsset: {fileID: 0}

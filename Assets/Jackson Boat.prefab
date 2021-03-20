@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 4275595076180449312}
   - component: {fileID: 9165503028816731504}
   - component: {fileID: 1690588553130524619}
+  - component: {fileID: 2310566802369733950}
   - component: {fileID: 1690588553130524618}
   m_Layer: 0
-  m_Name: Boat 1
+  m_Name: Jackson Boat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,6 +162,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.13239926, y: 0.32082093}
   m_EdgeRadius: 0
+--- !u!114 &2310566802369733950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4275595076180449317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d630ffadca99c4ea4b56caaf351e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateForce: 10
+  moveWaterEdgeBuffer: 5
+  moveSpeed: 5
 --- !u!114 &1690588553130524618
 MonoBehaviour:
   m_ObjectHideFlags: 0

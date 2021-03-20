@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 433096326333192156}
   - component: {fileID: 433096326333192131}
   - component: {fileID: 433096326333192130}
+  - component: {fileID: 2681045281277156884}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -144,7 +145,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b1d177ab62b36449a19bfafe4da2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   playerBody: {fileID: 433096326333192156}
   boat: {fileID: 0}
   attached: 1
+  rotateSpeed: 0.03
+  boatCollider: {fileID: 0}
+  rotatePower: 5
+--- !u!255 &2681045281277156884
+FixedJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433096326333192129}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0.0006430868, y: 0.14705883}
+  m_DampingRatio: 0
+  m_Frequency: 0

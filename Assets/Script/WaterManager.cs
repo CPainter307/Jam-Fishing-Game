@@ -53,7 +53,7 @@ public class WaterManager : MonoBehaviour
 
     void Start()
     {
-        SpawnWater(-20, 40, 0, -10);
+        SpawnWater(-50, 100, 0, -10);
     }
 
     private void Update()

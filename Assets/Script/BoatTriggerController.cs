@@ -10,7 +10,7 @@ public class BoatTriggerController : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
-            player.GetComponent<PlayerBehavior>().attached = true;
+            // player.GetComponent<PlayerBehavior>().attached = true;
             print("Attaching");
         }
     }
@@ -18,7 +18,7 @@ public class BoatTriggerController : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
-            player.GetComponent<PlayerBehavior>().attached = false;
+            // player.GetComponent<PlayerBehavior>().attached = false;
             print("Dettaching");
         }
     }
