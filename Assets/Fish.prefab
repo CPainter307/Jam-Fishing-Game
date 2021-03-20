@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 2045257972768974363}
   - component: {fileID: 4864600060145754385}
   m_Layer: 0
-  m_Name: TempFish
+  m_Name: Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateForce: 10
   moveWaterEdgeBuffer: 0
-  moveSpeed: 0
+  moveSpeed: 5
 --- !u!114 &4864600060145754385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +228,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 740326291988805203, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
       propertyPath: m_Radius
-      value: 0.48
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 2045774034169994478, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
       propertyPath: m_RootOrder
@@ -277,6 +277,26 @@ PrefabInstance:
     - target: {fileID: 2045774034169994479, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
       propertyPath: m_Name
       value: PlayerLineController
+      objectReference: {fileID: 0}
+    - target: {fileID: 2047548875307193982, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8152736716850741249, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
+      propertyPath: StartPoint
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969256186061210124, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
+      propertyPath: maxReel
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969256186061210124, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
+      propertyPath: minReel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969256186061210124, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
+      propertyPath: reelSpeed
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b45b6902a7d140e419f156ff7868f41d, type: 3}
