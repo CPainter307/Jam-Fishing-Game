@@ -7,6 +7,7 @@ public class PlayerLineController : MonoBehaviour
     public static PlayerLineController instance;
     [HideInInspector] public CircleCollider2D reelCircle;
     public FishingPole pole;
+    public Boat boat;
     [HideInInspector] public RopeBridge ropeBridge;
 
     private void Awake()
@@ -32,12 +33,13 @@ public class PlayerLineController : MonoBehaviour
         if (Vector3.Distance(pole.transform.position, reelCircle.transform.position) > reelCircle.radius)
         {
             ropeBridge.scaleFactor = -1;
-            
+            boat.transform.position = reelCircle.ClosestPoint(boat.transform.position);
         }
-    }
+        else
+        {
+            ropeBridge.scaleFactor = 50;
+        }
 
-    private void LateUpdate()
-    {
-
+        // if ()
     }
 }

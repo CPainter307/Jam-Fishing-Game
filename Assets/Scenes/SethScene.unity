@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &40699669 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6908716104773156264, guid: a52ee503b93694c4999a45444b98f23b, type: 3}
+  m_PrefabInstance: {fileID: 1940285939}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d630ffadca99c4ea4b56caaf351e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &418647933
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +427,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1092647736 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8962634602299838226, guid: a52ee503b93694c4999a45444b98f23b, type: 3}
+  m_PrefabInstance: {fileID: 1940285939}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedb30486238303428676d951df6b027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1199915995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -535,6 +557,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a52ee503b93694c4999a45444b98f23b, type: 3}
+--- !u!4 &2061983933 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8935661963352362412, guid: a52ee503b93694c4999a45444b98f23b, type: 3}
+  m_PrefabInstance: {fileID: 1940285939}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4864600061612315090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -542,10 +569,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5315563865036199631, guid: d3a858ce947c6da46ad0c3ee362cf49d, type: 3}
-      propertyPath: m_Radius
-      value: 0.6
-      objectReference: {fileID: 0}
+    - target: {fileID: 3649834493408256157, guid: d3a858ce947c6da46ad0c3ee362cf49d, type: 3}
+      propertyPath: StartPoint
+      value: 
+      objectReference: {fileID: 2061983933}
+    - target: {fileID: 4610477663236792976, guid: d3a858ce947c6da46ad0c3ee362cf49d, type: 3}
+      propertyPath: boat
+      value: 
+      objectReference: {fileID: 40699669}
+    - target: {fileID: 4610477663236792976, guid: d3a858ce947c6da46ad0c3ee362cf49d, type: 3}
+      propertyPath: pole
+      value: 
+      objectReference: {fileID: 1092647736}
     - target: {fileID: 8043813480849845544, guid: d3a858ce947c6da46ad0c3ee362cf49d, type: 3}
       propertyPath: m_Name
       value: TempFish
