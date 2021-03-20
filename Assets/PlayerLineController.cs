@@ -16,6 +16,8 @@ public class PlayerLineController : MonoBehaviour
     public float maxReel = 5f;
     public float minReel = 20f;
 
+    public float frontTorqueHandicap = 2f;
+
     private void Awake()
     {
         if (instance == null)
@@ -34,16 +36,18 @@ public class PlayerLineController : MonoBehaviour
         ropeBridge = GetComponentInChildren<RopeBridge>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (Vector3.Distance(pole.lineAttachPoint.transform.position, reelCircle.transform.position) > reelCircle.radius)
+        if (Vector3.Distance(boat.GetComponent<Rigidbody2D>().position, reelCircle.transform.position) > reelCircle.radius)
         {
             ropeBridge.scaleFactor = -1;
-            boat.transform.position = reelCircle.ClosestPoint(boat.transform.position);
+            boat.GetComponent<Rigidbody2D>().position = reelCircle.ClosestPoint(boat.GetComponent<Rigidbody2D>().position);
+            
+            // boat.GetComponent<Rigidbody2D>().AddTorque(-frontTorqueHandicap);
         }
         else
         {
-            ropeBridge.scaleFactor = 50;
+            ropeBridge.scaleFactor = 100;
         }
 
         reeling = Input.GetButton("Jump");

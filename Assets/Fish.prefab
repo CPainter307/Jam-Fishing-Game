@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateForce: 10
   moveWaterEdgeBuffer: 0
-  moveSpeed: 5
+  moveSpeed: 20
 --- !u!114 &4864600060145754385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6feb7440e3c956b40b3871695258c32d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxFishHealth: 0
   nextAttackTime: 0
   minNextAttackTime: 0
   attack01Time: 0
@@ -219,6 +220,7 @@ MonoBehaviour:
   attack03Time: 0
   preAttackRangeLow: 0
   preAttackRangeHigh: 0
+  moveSpeed: 5
 --- !u!1001 &4864600059749949596
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -25,13 +25,13 @@ public class Boat : MonoBehaviour
     private void Update()
     {
         // gets right bound of camera
-        cameraRightPos = transform.position.x + (Camera.main.orthographicSize * Screen.width / Screen.height);
+        cameraRightPos = rb.position.x + (Camera.main.orthographicSize * Screen.width / Screen.height);
 
-        if (cameraRightPos > (WaterManager.instance.finalNodePos.x - moveWaterEdgeBuffer))
+        while (cameraRightPos > (WaterManager.instance.finalNodePos.x - moveWaterEdgeBuffer))
         {
-            // print(WaterManager.instance.finalNodePos);
             WaterManager.instance.SwapFirstWithLast();
-            // print(WaterManager.instance.finalNodePos);
+
+            
         }
     }
 

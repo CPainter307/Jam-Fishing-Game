@@ -72,6 +72,10 @@ public class FishBehavior : MonoBehaviour
      **/
     int timerID;
 
+    /*movement*/
+    private Rigidbody2D rigidbody;
+    public float moveSpeed = 5.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +84,8 @@ public class FishBehavior : MonoBehaviour
         currentTimer = nextAttackTime;
         timerID = 0;
         attackTimeThird = ((nextAttackTime - minNextAttackTime) / 3f);
+
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -117,6 +123,27 @@ public class FishBehavior : MonoBehaviour
                     break;
             }
         }
+
+        UpdateCamera();
+    }
+
+    private void UpdateCamera()
+    {
+        // Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        // pos.x = Mathf.Clamp01(pos.x);
+        // pos.y = Mathf.Clamp01(pos.y);
+        // transform.position = Camera.main.ViewportToWorldPoint(pos);
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
+        
+    }
+
+    private void Move()
+    {
+        rigidbody.AddForce(new Vector2(moveSpeed, 0.0f));
     }
 
     void RunTimer()

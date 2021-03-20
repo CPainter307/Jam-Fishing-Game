@@ -42,10 +42,10 @@ public class PlayerBehavior : MonoBehaviour
     void FixedUpdate()
     {
         var boatRot = boat.transform.rotation.eulerAngles.z;
-        joint.enabled = attached;
+        // joint.enabled = attached;
         if (attached)
         {
-            
+
 
             // // Boat is rotating right
             // if (boatRot >= 270 + rotatePower && boatRot <= 360 - rotatePower)
@@ -65,7 +65,9 @@ public class PlayerBehavior : MonoBehaviour
             // );
 
             // transform.parent = boatCollider.transform;
-            // playerBody.position = new Vector3(playerBody.position.x, boatCollider.bounds.max.y);
+            playerBody.simulated = false;
+            transform.parent = boatCollider.transform;
+            // transform.position = new Vector3(boatCollider.transform.position.x, boatCollider.bounds.max.y);
             // playerBody.constraints = RigidbodyConstraints2D.FreezePosition;
             // transform.position = new Vector3(transform.position.x, boatCollider.bounds.max.y, transform.position.z);
             // transform.localScale = new Vector3(
@@ -75,6 +77,7 @@ public class PlayerBehavior : MonoBehaviour
         }
         else
         {
+            playerBody.simulated = true;
             // transform.parent = null;
         }
     }
