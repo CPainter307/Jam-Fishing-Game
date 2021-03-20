@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4681313415191870}
   m_Layer: 0
-  m_Name: End
+  m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4035757308914462}
   m_Layer: 0
-  m_Name: Start
+  m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,6 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5854094982eb504585fa338dbea0b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPoint: {fileID: 4035757308914462}
-  EndPoint: {fileID: 4681313415191870}
+  StartPoint: {fileID: 4681313415191870}
+  EndPoint: {fileID: 4035757308914462}
   scaleFactor: 100

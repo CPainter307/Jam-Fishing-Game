@@ -10,6 +10,7 @@ public class Boat : MonoBehaviour
 
     public float rotateForce = 10.0f;
     public float moveWaterEdgeBuffer = 5.0f;
+    public float moveSpeed = 5.0f;
 
     private void Start()
     {
@@ -40,6 +41,6 @@ public class Boat : MonoBehaviour
 
         rb.AddTorque(-horizontal * rotateForce);
 
-        rb.AddForce(new Vector2(5.0f, 0.0f));
+        rb.AddForce(new Vector2(moveSpeed, 0.0f));
     }
 }
