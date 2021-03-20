@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 433096326333192131}
   - component: {fileID: 433096326333192130}
   - component: {fileID: 2681045281277156884}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,6 +153,7 @@ MonoBehaviour:
   rotateSpeed: 0.03
   boatCollider: {fileID: 0}
   rotatePower: 5
+  die: 0
 --- !u!255 &2681045281277156884
 FixedJoint2D:
   m_ObjectHideFlags: 0
@@ -168,7 +169,7 @@ FixedJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 3.15}
+  m_ConnectedAnchor: {x: 0.09144001, y: 0.68068004}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!1001 &1634546247918517436
@@ -295,6 +296,18 @@ PrefabInstance:
     - target: {fileID: 6488718701324493776, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7242676341654423090, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
+      propertyPath: rigidBody
+      value: 
+      objectReference: {fileID: 433096326333192156}
+    - target: {fileID: 7242676341654423090, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
+      propertyPath: floaterCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7242676341654423090, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
+      propertyPath: depthBeforeSubmerged
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}

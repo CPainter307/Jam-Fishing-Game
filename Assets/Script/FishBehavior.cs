@@ -8,8 +8,8 @@ public class FishBehavior : MonoBehaviour
     public float maxFishHealth;
 
     // Stores the fish's current health.
-    float currentHealth;
-
+    public float currentHealth;
+    
     /**
      * Stores the current timer being checked by the fish's behavior. Once the timer
      * reaches this number, the next phase starts and the currentTimer changes.
@@ -75,6 +75,19 @@ public class FishBehavior : MonoBehaviour
     /*movement*/
     private Rigidbody2D rigidbody;
     public float moveSpeed = 5.0f;
+    public float bobAmount = 20.0f;
+    public float jumpForce = 90.0f;
+
+    public Transform tailPosition;
+    public float splashStrength;
+
+    public float maxXVelocity = 50f;
+
+    public float maxDepth = -5f;
+
+    bool canMove = true;
+
+    public PlayerBehavior player;
 
     // Start is called before the first frame update
     void Start()
@@ -93,7 +106,7 @@ public class FishBehavior : MonoBehaviour
     {
         DecreaseNextAttackTime();
         RunTimer();
-        DecreaseHealth();
+        // DecreaseHealth();
         if (currentTime >= currentTimer)
         {
             switch (timerID)
@@ -117,6 +130,7 @@ public class FishBehavior : MonoBehaviour
 
                 case 2:
                     Debug.Log("attackTime complete at " + currentTime + " seconds. Moving to nextAttackTime.");
+                    canMove = true;
                     currentTime = 0f;
                     currentTimer = nextAttackTime;
                     timerID = 0;
@@ -133,17 +147,36 @@ public class FishBehavior : MonoBehaviour
         // pos.x = Mathf.Clamp01(pos.x);
         // pos.y = Mathf.Clamp01(pos.y);
         // transform.position = Camera.main.ViewportToWorldPoint(pos);
+        // Vector3 xyz = transform.position;
+        // float distance = Mathf.Max(xyz.x, xyz.y, xyz.z);
+        // distance /= (2.0f * Mathf.Tan(0.5f * Camera.main.fieldOfView * Mathf.Deg2Rad));
+        // // Move camera in -z-direction; change '2.0f' to your needs
+        // Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -distance * 2.0f);
     }
 
     private void FixedUpdate()
     {
         Move();
+
+        if (maxDepth >= rigidbody.position.y)
+        {
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
+        }
         
     }
 
     private void Move()
     {
-        rigidbody.AddForce(new Vector2(moveSpeed, 0.0f));
+        if (canMove)
+        {
+            // rigidbody.MovePosition(rigidbody.position + new Vector2(moveSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime * bobAmount * Mathf.Sin(Time.time * 20.0f)));
+            rigidbody.AddForce(new Vector2(moveSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime * bobAmount * Mathf.Sin(Time.time * 20.0f)));
+            if (rigidbody.velocity.x > maxXVelocity)
+            {
+                rigidbody.velocity = new Vector2(maxXVelocity, rigidbody.velocity.y);
+            }
+        }
+        // transform.position = new Vector2(moveSpeed * Time.fixedDeltaTime, bobAmount * Mathf.Sin(Time.time * 20.0f));
     }
 
     void RunTimer()
@@ -184,7 +217,8 @@ public class FishBehavior : MonoBehaviour
 
     void SelectFishAttack()
     {
-        attackID = Random.Range(0, 3);
+        attackID = Random.Range(1, 2);
+        //attackID = Random.Range(0, 3);
     }
 
     /**
@@ -235,11 +269,20 @@ public class FishBehavior : MonoBehaviour
     void FishAttack01()
     {
         Debug.Log("Fish attacking...");
+
+        WaterManager.instance.Splash(tailPosition.position.x, splashStrength);
     }
 
     void FishAttack02()
     {
         Debug.Log("Fish attacking...");
+
+        if (canMove)
+        {
+            rigidbody.AddForce(new Vector3(0, jumpForce), ForceMode2D.Impulse);
+            // player.attached = false;
+        }
+        canMove = false;
     }
 
     void FishAttack03()
@@ -247,12 +290,17 @@ public class FishBehavior : MonoBehaviour
         Debug.Log("Fish attacking...");
     }
 
-    void DecreaseHealth()
+    public void DecreaseHealth(float damage)
     {
+        currentHealth -= Time.deltaTime * damage;
+
+        if (currentHealth <= 0)
+        {
+            GameManager.instance.TriggerWin();
+        }
         /**
         if (Input.GetKey(KeyCode.Q))
         {
-            currentHealth -= Time.deltaTime;
         }
         **/
     }

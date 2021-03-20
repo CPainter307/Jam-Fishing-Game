@@ -8,7 +8,10 @@ public class PlayerLineController : MonoBehaviour
     [HideInInspector] public CircleCollider2D reelCircle;
     public FishingPole pole;
     public Boat boat;
+    public PlayerBehavior player;
     [HideInInspector] public RopeBridge ropeBridge;
+
+    public Cinemachine.CinemachineVirtualCamera vcam;
 
     [HideInInspector] public bool reeling = false;
     public float reelSpeed = 5f;
@@ -16,7 +19,12 @@ public class PlayerLineController : MonoBehaviour
     public float maxReel = 5f;
     public float minReel = 20f;
 
+    public float zoom = 2.0f;
+    public float minZoom = 10.0f;
+
     public float frontTorqueHandicap = 2f;
+
+    private bool followPlayer = false;
 
     private void Awake()
     {
@@ -36,19 +44,51 @@ public class PlayerLineController : MonoBehaviour
         ropeBridge = GetComponentInChildren<RopeBridge>();
     }
 
+    private void Update()
+    {
+        followPlayer = player.attached;
+    }
+
     private void FixedUpdate()
     {
-        if (Vector3.Distance(boat.GetComponent<Rigidbody2D>().position, reelCircle.transform.position) > reelCircle.radius)
+        float dist = Vector3.Distance(boat.GetComponent<Rigidbody2D>().position, reelCircle.transform.position);
+        if (dist > reelCircle.radius)
         {
-            ropeBridge.scaleFactor = -1;
+            ropeBridge.scaleFactor = 100;
             boat.GetComponent<Rigidbody2D>().position = reelCircle.ClosestPoint(boat.GetComponent<Rigidbody2D>().position);
-            
-            // boat.GetComponent<Rigidbody2D>().AddTorque(-frontTorqueHandicap);
         }
         else
         {
-            ropeBridge.scaleFactor = 100;
+            ropeBridge.scaleFactor = -1;
         }
+        // if (player.attached)
+        // {
+        //     print("player attached");
+        //     dist = Vector3.Distance(boat.GetComponent<Rigidbody2D>().position, reelCircle.transform.position);
+        //     if (dist > reelCircle.radius)
+        //     {
+        //         ropeBridge.scaleFactor = 100;
+        //         boat.GetComponent<Rigidbody2D>().position = reelCircle.ClosestPoint(boat.GetComponent<Rigidbody2D>().position);
+        //     }
+        //     else
+        //     {
+        //         ropeBridge.scaleFactor = -1;
+        //     }
+        // }
+        // else if (!player.attached)
+        // {
+        //     print("player not attached");
+        //     dist = Vector3.Distance(player.GetComponent<Rigidbody2D>().position, reelCircle.transform.position);
+        //     if (dist > reelCircle.radius)
+        //     {
+        //         ropeBridge.scaleFactor = 100;
+        //         player.GetComponent<Rigidbody2D>().position = reelCircle.ClosestPoint(player.GetComponent<Rigidbody2D>().position);
+        //     }
+        //     else
+        //     {
+        //         ropeBridge.scaleFactor = -1;
+        //     }
+        // }
 
         reeling = Input.GetButton("Jump");
 
@@ -59,6 +99,7 @@ public class PlayerLineController : MonoBehaviour
         }
         else
         {
+            GameObject.FindObjectOfType<FishBehavior>().DecreaseHealth(2f);
             if (reelCircle.radius > maxReel)
                 reelCircle.radius -= reelSpeed * Time.deltaTime;
         }
