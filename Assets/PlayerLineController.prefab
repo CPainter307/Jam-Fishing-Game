@@ -81,6 +81,9 @@ MonoBehaviour:
   maxLoseTimer: 3
   realGameHasStarted: 1
   fishSprite: {fileID: 0}
+  music: {fileID: 0}
+  calmTheme: {fileID: 0}
+  extremeTheme: {fileID: 0}
   theBigOnePrefab: {fileID: 0}
   fishes: []
   reelingIn: {fileID: 8300000, guid: 7e827ed6a4e927d41ab71d4c2b7e1e84, type: 3}

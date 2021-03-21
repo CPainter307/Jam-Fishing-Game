@@ -304,6 +304,22 @@ public class FishBehavior : MonoBehaviour
     {
         Debug.Log("Fish attacking...");
 
+        StartCoroutine(SplashTimed());
+    }
+
+    IEnumerator SplashTimed()
+    {
+        DoSplash();
+        yield return new WaitForSeconds(1f);
+        DoSplash();
+        yield return new WaitForSeconds(1f);
+        DoSplash();
+        yield return new WaitForSeconds(1f);
+        DoSplash();
+    }
+
+    private void DoSplash()
+    {
         WaterManager.instance.Splash(tailPosition.position.x, splashStrength);
 
         GameObject holder = new GameObject();

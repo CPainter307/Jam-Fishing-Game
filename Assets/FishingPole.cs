@@ -14,6 +14,8 @@ public class FishingPole : MonoBehaviour
             transform.parent = null;
             GetComponent<Rigidbody2D>().simulated = false;
         }
+
+        GetComponent<Animator>().SetBool("Reeling", Input.GetKey(KeyCode.Space));
     }
 
 }

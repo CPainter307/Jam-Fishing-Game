@@ -45,6 +45,12 @@ public class PlayerBehavior : MonoBehaviour
             else
                 SceneManager.LoadScene("SethScene");
         }
+        GetComponent<Animator>().SetBool("Reeling", Input.GetKey(KeyCode.Space));
+    }
+
+    public void TriggerSurprise(bool surprise)
+    {
+        GetComponent<Animator>().SetBool("Surprised", surprise);
     }
 
     void FixedUpdate()

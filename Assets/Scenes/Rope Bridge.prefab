@@ -207,4 +207,4 @@ MonoBehaviour:
   StartPoint: {fileID: 4681313415191870}
   EndPoint: {fileID: 4035757308914462}
   scaleFactor: 100
-  lineWidth: 0.3
+  lineWidth: 0.1
