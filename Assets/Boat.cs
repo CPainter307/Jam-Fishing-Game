@@ -40,7 +40,6 @@ public class Boat : MonoBehaviour
         if (other.gameObject.tag == "FishSpike")
         {
             print("test");
-            GameObject.FindObjectOfType<PlayerBehavior>().attached = false;
             GameObject.FindObjectOfType<PlayerBehavior>().OnDeath();
         }
     }

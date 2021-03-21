@@ -17,6 +17,8 @@ public class PlayerLineController : MonoBehaviour
     public float reelInSpeed = 5f;
     public float reelOutSpeed = 15f;
 
+    private IEnumerator co;
+
     public float maxReel = 5f;
     public float minReel = 20f;
 
@@ -26,6 +28,11 @@ public class PlayerLineController : MonoBehaviour
     public float frontTorqueHandicap = 2f;
 
     private bool followPlayer = false;
+
+    public bool isAtMaxReel = false;
+
+    public float loseTimer = 0f;
+    public float maxLoseTimer = 3f;
 
     private void Awake()
     {
@@ -39,15 +46,38 @@ public class PlayerLineController : MonoBehaviour
         }
     }
 
+    public enum State
+    {
+        None,
+        ReelingIn,
+        ReelingOut,
+        MaxReel,
+        MinReel
+    }
+
+    State currentState = State.None;
+
     private void Start()
     {
         reelCircle = GetComponent<CircleCollider2D>();
         ropeBridge = GetComponentInChildren<RopeBridge>();
+
+        co = StartReelLose();
     }
 
     private void Update()
     {
         followPlayer = player.attached;
+
+        if (currentState == State.MaxReel)
+        {
+            loseTimer += Time.deltaTime;
+            if (loseTimer > maxLoseTimer)
+            {
+                player.OnDeath();
+                loseTimer = 0.0f;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -93,16 +123,70 @@ public class PlayerLineController : MonoBehaviour
 
         reeling = Input.GetButton("Jump");
 
+        FishBehavior fish = GameObject.FindObjectOfType<FishBehavior>();
+
+        if (fish == null) return;
+
         if (!reeling)
         {
             if (reelCircle.radius < minReel)
-                reelCircle.radius += reelOutSpeed * Time.deltaTime;
+            {
+                SetState(State.ReelingIn);
+                reelCircle.radius += reelOutSpeed * Time.fixedDeltaTime;
+                GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, reelOutSpeed * Time.fixedDeltaTime);
+            }
+            else
+            {
+                SetState(State.MaxReel);
+                GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, 0.0f);
+            }
         }
         else
         {
-            GameObject.FindObjectOfType<FishBehavior>().DecreaseHealth(2f);
+            fish.DecreaseHealth(2f);
             if (reelCircle.radius > maxReel)
-                reelCircle.radius -= reelInSpeed * Time.deltaTime;
+            {
+                SetState(State.ReelingOut);
+                reelCircle.radius -= reelInSpeed * Time.fixedDeltaTime;
+                GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, reelInSpeed * Time.fixedDeltaTime);
+            }
+            else
+            {
+                SetState(State.MinReel);
+                GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, 0.0f);
+            }
         }
+    }
+
+    IEnumerator StartReelLose()
+    {
+        yield return new WaitForSeconds(3f);
+    }
+
+    void SetState(State state)
+    {
+        if (currentState == state) return;
+
+        GameManager.instance.StartState();
+        loseTimer = 0.0f;
+
+        currentState = state;
+        switch (state)
+        {
+            case State.None:
+                break;
+
+            case State.MinReel:
+                break;
+
+            case State.MaxReel:
+                break;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // GameManager.instance.StartState();
+        // SetState(State.None);
     }
 }

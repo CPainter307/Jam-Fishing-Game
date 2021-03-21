@@ -22,6 +22,8 @@ public class PlayerBehavior : MonoBehaviour
 
     public float minDepth = -2;
 
+    public bool godMode = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +56,6 @@ public class PlayerBehavior : MonoBehaviour
             // // Boat is rotating right
             if (boatRot <= 270 && boatRot >= 90)
             {
-                attached = false;
                 OnDeath();
             }
             playerBody.simulated = false;
@@ -69,6 +70,9 @@ public class PlayerBehavior : MonoBehaviour
 
     public void OnDeath()
     {
+        if (godMode) return;
+
+        attached = false;
         die = true;
 
         GameManager.instance.TriggerLose();

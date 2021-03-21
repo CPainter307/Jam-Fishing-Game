@@ -297,11 +297,17 @@ public class FishBehavior : MonoBehaviour
 
     public IEnumerator SpikeSpawn()
     {
-        Instantiate(spikePrefab, spikeSpawnPositions[0]);
+        if (rigidbody.position.y > 1.0f)
+            Instantiate(spikePrefab, spikeSpawnPositions[0]);
         yield return new WaitForSeconds(.5f);
-        Instantiate(spikePrefab, spikeSpawnPositions[1]);
+        if (rigidbody.position.y > 1.0f)
+            Instantiate(spikePrefab, spikeSpawnPositions[1]);
         yield return new WaitForSeconds(.5f);
-        Instantiate(spikePrefab, spikeSpawnPositions[2]);
+        if (rigidbody.position.y > 1.0f)
+            Instantiate(spikePrefab, spikeSpawnPositions[2]);
+        yield return new WaitForSeconds(.5f);
+        if (rigidbody.position.y > 1.0f)
+            Instantiate(spikePrefab, spikeSpawnPositions[0]);
     }
 
     public void DecreaseHealth(float damage)
