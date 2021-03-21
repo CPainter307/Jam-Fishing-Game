@@ -56,6 +56,13 @@ public class PlayerLineController : MonoBehaviour
 
     public FishReeled[] fishes;
 
+
+    public AudioClip reelingIn;
+    public AudioClip reelingOut;
+    public AudioClip deployRod;
+
+    private AudioSource audioSource;
+
     private void Awake()
     {
         if (instance == null)
@@ -84,6 +91,7 @@ public class PlayerLineController : MonoBehaviour
     {
         reelCircle = GetComponent<CircleCollider2D>();
         ropeBridge = GetComponentInChildren<RopeBridge>();
+        audioSource = GetComponent<AudioSource>();
 
         co = StartReelLose();
     }
@@ -146,6 +154,8 @@ public class PlayerLineController : MonoBehaviour
         {
             if (currentState == State.ReelingOutHoldFake)
             {
+                audioSource.clip = reelingOut;
+                audioSource.Play();
                 LeanTween.moveLocalY(fakeReeler.gameObject, 0.0f, 1.0f).setOnComplete(FishReeledComplete);
             }
             else
@@ -182,7 +192,6 @@ public class PlayerLineController : MonoBehaviour
             }
             else
             {
-                print("test");
                 SetState(State.MinReel);
                 GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, 0.0f);
             }
@@ -208,12 +217,16 @@ public class PlayerLineController : MonoBehaviour
                 break;
 
             case State.MinReel:
+                audioSource.Stop();
                 break;
 
             case State.MaxReel:
+                audioSource.Stop();
                 break;
 
             case State.ReelingOut:
+                audioSource.clip = reelingIn;
+                audioSource.Play();
                 if (!realGameHasStarted)
                 {
                     LeanTween.moveLocalY(fakeReeler.gameObject, -20.0f, 1.0f).setOnComplete(OnCompleteMoveBack);
@@ -230,6 +243,8 @@ public class PlayerLineController : MonoBehaviour
                 break;
 
             case State.ReelingIn:
+                audioSource.clip = reelingOut;
+                audioSource.Play();
                 break;
         }
     }
@@ -237,6 +252,8 @@ public class PlayerLineController : MonoBehaviour
     void OnCompleteMoveBack()
     {
         SetState(State.ReelingOutHoldFake);
+
+        audioSource.Stop();
 
         fishReeled = fishes[UnityEngine.Random.Range(0, fishes.Length)];
 
@@ -269,6 +286,7 @@ public class PlayerLineController : MonoBehaviour
 
     void FishReeledComplete()
     {
+        audioSource.Stop();
         SetState(State.None);
 
         GameManager.instance.SetFishText(fishReeled.fishName);

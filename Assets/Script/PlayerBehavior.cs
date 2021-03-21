@@ -78,6 +78,8 @@ public class PlayerBehavior : MonoBehaviour
         attached = false;
         dead = true;
 
+        playerBody.velocity = Vector3.zero;
+
         GameManager.instance.TriggerLose();
     }
 }

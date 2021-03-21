@@ -92,6 +92,17 @@ public class FishBehavior : MonoBehaviour
     public GameObject spikePrefab;
     public Transform[] spikeSpawnPositions;
 
+    public AudioClip landInWater;
+    public AudioClip jumpSound;
+    public AudioClip growlSound;
+
+    private AudioSource audioSource;
+
+    public float audioPlayDiveSoundDepth = -2f;
+
+    private float angle;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -104,6 +115,8 @@ public class FishBehavior : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
 
         rigidbody.position = new Vector2(rigidbody.position.x + 9.0f, 0.0f);
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -144,6 +157,10 @@ public class FishBehavior : MonoBehaviour
         }
 
         UpdateCamera();
+
+        Vector2 v = rigidbody.velocity;
+        angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     private void UpdateCamera()
@@ -166,8 +183,20 @@ public class FishBehavior : MonoBehaviour
         if (maxDepth >= rigidbody.position.y)
         {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
+
+            
         }
-        
+
+        if (audioPlayDiveSoundDepth >= rigidbody.position.y)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = landInWater;
+                audioSource.pitch = UnityEngine.Random.Range(.90f, 1.1f);
+                audioSource.volume = .5f;
+                audioSource.Play();
+            }
+        }
     }
 
     private void Move()
@@ -222,7 +251,7 @@ public class FishBehavior : MonoBehaviour
 
     void SelectFishAttack()
     {
-        //attackID = Random.Range(2, 3);
+        //attackID = Random.Range(1, 2);
         attackID = Random.Range(0, 3);
     }
 
@@ -276,6 +305,15 @@ public class FishBehavior : MonoBehaviour
         Debug.Log("Fish attacking...");
 
         WaterManager.instance.Splash(tailPosition.position.x, splashStrength);
+
+        GameObject holder = new GameObject();
+        AudioSource audi = holder.AddComponent(typeof(AudioSource)) as AudioSource;
+
+        audi.clip = jumpSound;
+        audi.pitch = UnityEngine.Random.Range(.90f, 1.1f);
+        audi.volume = .5f;
+        audi.Play();
+        Destroy(holder, 2.0f);
     }
 
     void FishAttack02()
@@ -285,6 +323,15 @@ public class FishBehavior : MonoBehaviour
         if (canMove)
         {
             rigidbody.AddForce(new Vector3(0, jumpForce), ForceMode2D.Impulse);
+
+            GameObject holder = new GameObject();
+            AudioSource audi = holder.AddComponent(typeof(AudioSource)) as AudioSource;
+
+            audi.clip = jumpSound;
+            audi.pitch = UnityEngine.Random.Range(.90f, 1.1f);
+            audi.volume = .5f;
+            audi.Play();
+            Destroy(holder, 2.0f);
             // player.attached = false;
         }
         canMove = false;
@@ -293,6 +340,15 @@ public class FishBehavior : MonoBehaviour
     void FishAttack03()
     {
         Debug.Log("Fish attacking...");
+
+        GameObject holder = new GameObject();
+        AudioSource audi = holder.AddComponent(typeof(AudioSource)) as AudioSource;
+
+        audi.clip = growlSound;
+        audi.pitch = UnityEngine.Random.Range(.90f, 1.1f);
+        audi.volume = .5f;
+        audi.Play();
+        Destroy(holder, 5.0f);
 
         StartCoroutine(SpikeSpawn());
     }
