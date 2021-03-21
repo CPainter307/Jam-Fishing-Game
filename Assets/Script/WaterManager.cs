@@ -227,6 +227,17 @@ public class WaterManager : MonoBehaviour
             int index = Mathf.RoundToInt((xpositions.Length - 1) * (xpos / (xpositions[xpositions.Length - 1] - xpositions[0])));
 
             velocities[index] = velocity;
+
+            float lifetime = 0.93f + Mathf.Abs(velocity) * 0.07f;
+            splash.GetComponent<ParticleSystem>().startSpeed = 8 + 2 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
+            splash.GetComponent<ParticleSystem>().startSpeed = 9 + 2 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
+            splash.GetComponent<ParticleSystem>().startLifetime = lifetime;
+
+            Vector3 position = new Vector3(xpositions[index], ypositions[index] - 0.35f, 5);
+            Quaternion rotation = Quaternion.LookRotation(new Vector3(xpositions[Mathf.FloorToInt(xpositions.Length / 2)], baseheight + 8, 5) - position);
+
+            GameObject splish = Instantiate(splash, position, rotation) as GameObject;
+            Destroy(splish, lifetime + 0.3f);
         }
     }
 
