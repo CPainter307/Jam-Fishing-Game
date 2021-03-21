@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     public Canvas GameCanvas;
+    public Canvas FishCanvas;
     public CanvasGroup BigFade;
     public UnityEngine.UI.Text BigText;
 
@@ -16,6 +18,10 @@ public class GameManager : MonoBehaviour
 
     public float minStringScale = .3f;
     public float maxStringScale = 1.0f;
+
+    private bool gameEnded = false;
+
+    public string fishName = "The Big One";
 
     private void Awake()
     {
@@ -43,19 +49,24 @@ public class GameManager : MonoBehaviour
 
     public void TriggerWin()
     {
-        BigText.gameObject.active = true;
-        FadeOut();
-        BigText.text = "You Caught The Big One!!";
+        if (GameObject.FindObjectOfType<PlayerBehavior>().dead) return;
 
         GameObject.FindObjectOfType<PlayerBehavior>().godMode = true;
+
+        gameEnded = true;
+
+        FishCanvas.GetComponentInChildren<UnityEngine.UI.Text>().text = "You Caught " + fishName + "!";
+        LeanTween.alphaCanvas(FishCanvas.GetComponent<CanvasGroup>(), 1f, 1.0f);
 
         Destroy(GameObject.FindObjectOfType<FishBehavior>().gameObject);
     }
 
     public void TriggerLose()
     {
+        gameEnded = true;
+
         BigText.gameObject.active = true;
-        BigText.text = "You Couldn't Catch The Big One...";
+        BigText.text = "You Couldn't Catch\n The Big One...";
     }
 
     public void UpdateReelUI(float reelSize, PlayerLineController.State reelState, float reelSpeed)
@@ -106,6 +117,14 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             TriggerWin();
+        }
+
+        if (gameEnded)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene("SethScene");
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ public class PlayerBehavior : MonoBehaviour
 
     private Vector3 startScale;
 
-    public bool die = false;
+    public bool dead = false;
 
     public float minDepth = -2;
 
@@ -73,7 +73,7 @@ public class PlayerBehavior : MonoBehaviour
         if (godMode) return;
 
         attached = false;
-        die = true;
+        dead = true;
 
         GameManager.instance.TriggerLose();
     }

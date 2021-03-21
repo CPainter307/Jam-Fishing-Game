@@ -9,7 +9,7 @@ public class FishingPole : MonoBehaviour
 
     private void Update()
     {
-        if (player.die)
+        if (player.dead)
         {
             transform.parent = null;
             GetComponent<Rigidbody2D>().simulated = false;
