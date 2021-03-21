@@ -23,6 +23,7 @@ public class PlayerLineController : MonoBehaviour
     private IEnumerator co;
 
     private FakeReeler fakeReeler;
+    private Transform reelerPosition;
 
     public float maxReel = 5f;
     public float minReel = 20f;
@@ -48,6 +49,21 @@ public class PlayerLineController : MonoBehaviour
     public AudioClip calmTheme;
     public AudioClip extremeTheme;
 
+    public float fishTimer = 0f;
+    public float minFishTimer;
+    public float maxFishTimer;
+    float actualFishTime;
+
+    public float fishEscapeTimer = 3f;
+
+    public bool fishTimerRunning = false;
+    public bool escapeTimerRunning = false;
+
+    public bool lineUp = true;
+    public bool fishOnTheLine;
+
+    bool controllable = true;
+
     FishReeled fishReeled;
 
     [System.Serializable]
@@ -67,6 +83,12 @@ public class PlayerLineController : MonoBehaviour
     public AudioClip deployRod;
 
     private AudioSource audioSource;
+    public AudioSource playerSounds;
+    public AudioClip surprisedSound;
+
+    public GameObject exclamation;
+
+    bool releasing;
 
     private void Awake()
     {
@@ -103,13 +125,53 @@ public class PlayerLineController : MonoBehaviour
 
     private void Update()
     {
-        if (currentState == State.MaxReel)
+        releasing = Input.GetButtonDown("Jump");
+        if (currentState == State.MaxReel && realGameHasStarted)
         {
             loseTimer += Time.deltaTime;
             if (loseTimer > maxLoseTimer)
             {
                 player.OnDeath();
                 loseTimer = 0.0f;
+            }
+        }
+
+        if (fishTimerRunning)
+        {
+            RunFishTimer();
+        }
+        else
+        {
+            //StopFishTimer();
+        }
+
+        if (escapeTimerRunning)
+        {
+            RunEscapeTimer();
+        }
+
+        if (realGameHasStarted)
+        {
+            FindObjectOfType<RopeBridge>().scaleFactor = 100;
+        }
+        else
+        {
+            FindObjectOfType<RopeBridge>().scaleFactor = 0;
+            if (lineUp && controllable)
+            {
+                if (releasing)
+                {
+                    lineUp = false;
+                }
+            }
+
+            if (!controllable)
+            {
+                if (releasing)
+                {
+                    controllable = true;
+                    GameManager.instance.ResetFishOverlay();
+                }
             }
         }
     }
@@ -140,7 +202,88 @@ public class PlayerLineController : MonoBehaviour
             FakeReeler reeler = GameObject.FindObjectOfType<FakeReeler>();
             if (reeler == null) return;
             fakeReeler = reeler;
-            FakeGameReeling(reeler);
+            reelerPosition = reeler.gameObject.GetComponent<Transform>();
+            //FakeGameReeling(reeler);
+
+            if (controllable)
+            {
+                if (!lineUp)
+                {
+                    if (reeling)
+                    {
+                        StopFishTimer();
+                        StopEscapeTimer();
+                        if (FindObjectOfType<PlayerBehavior>().GetSurprise() == true)
+                        {
+                            FindObjectOfType<PlayerBehavior>().TriggerSurprise(false);
+                            exclamation.SetActive(false);
+                        }
+                        if (audioSource.clip != reelingIn)
+                        {
+                            audioSource.Stop();
+                            audioSource.clip = reelingIn;
+                            audioSource.Play();
+                        }
+                        reelerPosition.position = new Vector3(reelerPosition.position.x, reelerPosition.position.y + 0.1f, reelerPosition.position.z);
+                        if (reelerPosition.position.y >= 0f)
+                        {
+                            if (fishOnTheLine)
+                            {
+                                FishReeledComplete();
+                                fishOnTheLine = false;
+                            }
+                            reelerPosition.position = new Vector3(reelerPosition.position.x, 0f, reelerPosition.position.z);
+                            audioSource.Stop();
+                            if (currentState != State.MinReel)
+                            {
+                                SetState(State.MinReel);
+                            }
+                        }
+                        else
+                        {
+                            SetState(State.ReelingIn);
+                        }
+                    }
+                    else
+                    {
+                        if (audioSource.clip != reelingOut)
+                        {
+                            audioSource.Stop();
+                            audioSource.clip = reelingOut;
+                            audioSource.Play();
+                        }
+                        reelerPosition.position = new Vector3(reelerPosition.position.x, reelerPosition.position.y - 0.1f, reelerPosition.position.z);
+                        if (reelerPosition.position.y < -20f)
+                        {
+                            reelerPosition.position = new Vector3(reelerPosition.position.x, -20f, reelerPosition.position.z);
+                            audioSource.Stop();
+                            if (currentState != State.MaxReel)
+                            {
+                                SetState(State.MaxReel);
+                                if (!fishOnTheLine)
+                                {
+
+                                    actualFishTime = UnityEngine.Random.Range(minFishTimer, maxFishTimer);
+                                    StartFishTimer();
+                                }
+                            }
+                            if (fishOnTheLine && !escapeTimerRunning)
+                            {
+                                Debug.Log("The fish is trying to escape!");
+                                StartEscapeTimer();
+                            }
+                        }
+                        else
+                        {
+                            SetState(State.ReelingOut);
+                        }
+                    }
+                }
+                else
+                {
+                    reelerPosition.position = new Vector3(reelerPosition.position.x, 0f, reelerPosition.position.z);
+                }
+            }
         }
     }
 
@@ -153,7 +296,7 @@ public class PlayerLineController : MonoBehaviour
 
         if (!reeling)
         {
-            // LeanTween.cancelAll(fakeReeler.gameObject);
+            //LeanTween.moveLocalY(fakeReeler.gameObject, -20.0f, 1.0f).setOnComplete(StartFishTimer);
         }
         else
         {
@@ -161,7 +304,14 @@ public class PlayerLineController : MonoBehaviour
             {
                 audioSource.clip = reelingOut;
                 audioSource.Play();
-                LeanTween.moveLocalY(fakeReeler.gameObject, 0.0f, 1.0f).setOnComplete(FishReeledComplete);
+                //LeanTween.moveLocalY(fakeReeler.gameObject, 0.0f, 1.0f).setOnComplete(FishReeledComplete);
+                fishTimerRunning = false;
+                //reelerPosition.position = new Vector3(reelerPosition.position.x, reelerPosition.position.y + 0.1f, reelerPosition.position.z);
+                if (reelerPosition.position.y >= 0)
+                {
+                    FishReeledComplete();
+                }
+
             }
             else
             {
@@ -222,22 +372,26 @@ public class PlayerLineController : MonoBehaviour
                 break;
 
             case State.MinReel:
-                audioSource.Stop();
                 break;
 
             case State.MaxReel:
-                audioSource.Stop();
                 break;
 
             case State.ReelingOut:
-                audioSource.clip = reelingIn;
-                audioSource.Play();
                 if (!realGameHasStarted)
                 {
-                    LeanTween.moveLocalY(fakeReeler.gameObject, -20.0f, 1.0f).setOnComplete(OnCompleteMoveBack);
-                    GameManager.instance.ResetFishOverlay();
-                    fishSprite.sprite = null;
+                    //lineUp = false;
+                    //actualFishTime = UnityEngine.Random.Range(minFishTimer, maxFishTimer);
+                    //LeanTween.moveLocalY(fakeReeler.gameObject, -20.0f, 1.0f).setOnComplete(StartFishTimer);
+                    //StartFishTimer();
+                    //GameManager.instance.ResetFishOverlay();
+                    //fishSprite.sprite = null;
                     //LeanTween.moveLocalY(fakeReeler.gameObject, 0.0f, 1.0f);
+                }
+                else
+                {
+                    audioSource.clip = reelingIn;
+                    audioSource.Play();
                 }
                 break;
             case State.ReelingOutHoldFake:
@@ -248,27 +402,36 @@ public class PlayerLineController : MonoBehaviour
                 break;
 
             case State.ReelingIn:
-                audioSource.clip = reelingOut;
-                audioSource.Play();
+                if (!realGameHasStarted)
+                {
+
+                }
+                else
+                {
+                    audioSource.clip = reelingOut;
+                    audioSource.Play();
+                }
                 break;
         }
     }
 
     void OnCompleteMoveBack()
     {
-        SetState(State.ReelingOutHoldFake);
-
-        audioSource.Stop();
-
         fishReeled = fishes[UnityEngine.Random.Range(0, fishes.Length)];
 
         fishSprite.sprite = fishReeled.fishSprite;
         GameManager.instance.SetFishSprite(fishSprite.sprite);
 
+        fishOnTheLine = true;
+
         if (amountOfFakeFishReeled > 2)
         {
-            if (UnityEngine.Random.Range(0, 1) == 0)
+            // ToDo - add better transition
+            if (UnityEngine.Random.Range(0, 2) == 0)
             {
+                FindObjectOfType<PlayerBehavior>().TriggerSurprise(false);
+                exclamation.SetActive(false);
+                Debug.Log("Reeled in the big one!");
                 StartRealGame();
             }
         }
@@ -293,9 +456,12 @@ public class PlayerLineController : MonoBehaviour
 
     void FishReeledComplete()
     {
-        audioSource.Stop();
         SetState(State.None);
-
+        fishOnTheLine = false;
+        lineUp = true;
+        controllable = false;
+        Debug.Log("Fish caught!");
+        fishSprite.sprite = null;
         GameManager.instance.SetFishText(fishReeled.fishName);
     }
 
@@ -304,4 +470,71 @@ public class PlayerLineController : MonoBehaviour
         // GameManager.instance.StartState();
         // SetState(State.None);
     }
+
+    void StartFishTimer()
+    {
+        //SetState(State.ReelingOutHoldFake);
+        //audioSource.Stop();
+        fishTimerRunning = true;
+    }
+
+    void RunFishTimer()
+    {
+        fishTimer += Time.deltaTime;
+
+        if (fishTimer > actualFishTime)
+        {
+            ShowSurprise();
+            OnCompleteMoveBack();
+            StopFishTimer();
+            Debug.Log("Fish on the line!");
+        }
+    }
+
+    void StopFishTimer()
+    {
+        fishTimerRunning = false;
+        fishTimer = 0f;
+    }
+
+    void ShowSurprise()
+    {
+        playerSounds.clip = surprisedSound;
+        playerSounds.Play();
+        FindObjectOfType<PlayerBehavior>().TriggerSurprise(true);
+        exclamation.SetActive(true);
+    }
+
+    void StartEscapeTimer()
+    {
+        escapeTimerRunning = true;
+    }
+
+    void RunEscapeTimer()
+    {
+        fishEscapeTimer -= Time.deltaTime;
+
+        if (fishEscapeTimer <= 0)
+        {
+            FishEscapes();
+            StopEscapeTimer();
+        }
+    }
+
+    void StopEscapeTimer()
+    {
+        fishEscapeTimer = 3f;
+        escapeTimerRunning = false;
+    }
+
+    void FishEscapes()
+    {
+        Debug.Log("The fish got away!");
+        FindObjectOfType<PlayerBehavior>().TriggerSurprise(false);
+        exclamation.SetActive(false);
+        fishOnTheLine = false;
+        fishSprite.sprite = null;
+        StartFishTimer();
+    }
+
 }

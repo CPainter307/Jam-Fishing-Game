@@ -24,6 +24,8 @@ public class PlayerBehavior : MonoBehaviour
 
     public bool godMode = false;
 
+    public bool currentlySurprised;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +53,12 @@ public class PlayerBehavior : MonoBehaviour
     public void TriggerSurprise(bool surprise)
     {
         GetComponent<Animator>().SetBool("Surprised", surprise);
+        currentlySurprised = surprise;
+    }
+
+    public bool GetSurprise()
+    {
+        return currentlySurprised;
     }
 
     void FixedUpdate()
