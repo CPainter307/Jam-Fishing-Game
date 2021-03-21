@@ -43,6 +43,11 @@ public class PlayerLineController : MonoBehaviour
 
     public SpriteRenderer fishSprite;
 
+    public AudioSource music;
+
+    public AudioClip calmTheme;
+    public AudioClip extremeTheme;
+
     FishReeled fishReeled;
 
     [System.Serializable]
@@ -272,6 +277,8 @@ public class PlayerLineController : MonoBehaviour
 
     private void StartRealGame()
     {
+        music.clip = extremeTheme;
+        music.Play();
         GameObject go = transform.parent.gameObject;
         transform.parent = null;
         Destroy(go);

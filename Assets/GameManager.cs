@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,6 +24,13 @@ public class GameManager : MonoBehaviour
 
     public string fishName = "The Big One";
     public Sprite fishSprite;
+
+    public AudioMixer audioMixer;
+    public AudioSource music;
+    public AudioClip calmTheme;
+    public AudioClip extremeTheme;
+    float mixerStartTime;
+    float audioPitch;
 
     private void Awake()
     {
@@ -81,6 +89,8 @@ public class GameManager : MonoBehaviour
 
     public void TriggerLose()
     {
+        mixerStartTime = Time.time;
+
         gameEnded = true;
 
         BigText.gameObject.active = true;
@@ -139,12 +149,25 @@ public class GameManager : MonoBehaviour
 
         if (gameEnded)
         {
+            // Happens even if you win - needs conditional
+            audioMixer.GetFloat("musicPitch", out audioPitch);
+            float t = Time.time - mixerStartTime;
+            Debug.Log("lowering pitch");
+            audioMixer.SetFloat("musicPitch", audioPitch - (t * 0.001f));
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (!CheckerForHasStartedTheRealGameOnce.instance.hasStartedTheRealGameOnce)
+                {
+                    audioMixer.SetFloat("musicPitch", 1f);
+                    music.clip = calmTheme;
                     SceneManager.LoadScene("SethScene-init");
+                }
                 else
+                {
+                    audioMixer.SetFloat("musicPitch", 1f);
                     SceneManager.LoadScene("SethScene");
+                }
             }
         }
     }
