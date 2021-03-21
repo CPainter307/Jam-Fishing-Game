@@ -2,12 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
+    public RectTransform title;
+
     // Start is called before the first frame update
     public void PlayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("SethScene-init");
+    }
+
+    private void Start() {
+        RotStart();
+        LeanTween.scale(title.gameObject, new Vector3(1.3f, 1.3f, 1.3f), .4f).setLoopPingPong().setEaseInOutSine();
+    }
+
+    private void RotStart() {
+        LeanTween.rotateZ(title.gameObject, 5f, .5f).setOnComplete(Rot).setEaseInOutSine();
+    }
+
+    void Rot()
+    {
+        LeanTween.rotateZ(title.gameObject, -5f, .5f).setOnComplete(RotStart).setEaseInOutSine();
     }
 }

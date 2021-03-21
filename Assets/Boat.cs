@@ -43,11 +43,12 @@ public class Boat : MonoBehaviour
             }
         }
 
-        while (cameraRightPos > (WaterManager.instance.finalNodePos.x - moveWaterEdgeBuffer))
+        if (!GameObject.FindObjectOfType<PlayerBehavior>().dead)
         {
-            WaterManager.instance.SwapFirstWithLast();
-
-
+            while (cameraRightPos > (WaterManager.instance.finalNodePos.x - moveWaterEdgeBuffer))
+            {
+                WaterManager.instance.SwapFirstWithLast();
+            }
         }
     }
 

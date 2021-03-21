@@ -43,11 +43,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e40c786a73df5c44a2dc93b4ea736dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalNodePos: {x: 0, y: 0}
   springconstant: 0.02
   damping: 0.04
   spread: 0.05
   z: -1
-  splash: {fileID: 0}
+  totalNodes: 0
+  totalEdges: 0
+  TotalWidth: 0
+  LeftBound: 0
+  splash: {fileID: 100000, guid: e5b29aac511112547acbe3f4c91f704d, type: 3}
   mat: {fileID: 2100000, guid: 9f3725c8d7eb68f43ad435d5a1e09484, type: 2}
+  lineMat: {fileID: 2100000, guid: 727d9e29d1701184ea0b6facba877d79, type: 2}
   watermesh: {fileID: 2579246597152701453, guid: 3495c78684457e644ba07bcd23fa24c1, type: 3}
   testDropObject: {fileID: 8875154104654701747, guid: c9aad84b94ddb6a45b32c44b86a2c392, type: 3}

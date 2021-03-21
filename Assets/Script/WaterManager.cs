@@ -33,6 +33,7 @@ public class WaterManager : MonoBehaviour
 
     public GameObject splash;
     public Material mat;
+    public Material lineMat;
     public GameObject watermesh;
 
     public GameObject testDropObject;
@@ -60,7 +61,7 @@ public class WaterManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject testObject = Instantiate(testDropObject, Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10)), testDropObject.transform.rotation) as GameObject;
+            // GameObject testObject = Instantiate(testDropObject, Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10)), testDropObject.transform.rotation) as GameObject;
         }
     }
 
@@ -76,10 +77,10 @@ public class WaterManager : MonoBehaviour
         totalNodes = nodecount;
 
         Body = gameObject.AddComponent<LineRenderer>();
-        Body.material = mat;
+        Body.material = lineMat;
         Body.material.renderQueue = 1000;
         Body.positionCount = nodecount;
-        Body.SetWidth(0.1f, 0.1f);
+        Body.SetWidth(0.4f, 0.4f);
 
         xpositions = new float[nodecount];
         ypositions = new float[nodecount];
@@ -229,15 +230,20 @@ public class WaterManager : MonoBehaviour
             velocities[index] = velocity;
 
             float lifetime = 0.93f + Mathf.Abs(velocity) * 0.07f;
-            splash.GetComponent<ParticleSystem>().startSpeed = 8 + 2 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
-            splash.GetComponent<ParticleSystem>().startSpeed = 9 + 2 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
-            splash.GetComponent<ParticleSystem>().startLifetime = lifetime;
-
+            if (splash)
+            {
+                splash.GetComponent<ParticleSystem>().startSpeed = 8 + 2 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
+                splash.GetComponent<ParticleSystem>().startSpeed = 9 + 2 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
+                splash.GetComponent<ParticleSystem>().startLifetime = lifetime;
+            }
             Vector3 position = new Vector3(xpositions[index], ypositions[index] - 0.35f, 5);
             Quaternion rotation = Quaternion.LookRotation(new Vector3(xpositions[Mathf.FloorToInt(xpositions.Length / 2)], baseheight + 8, 5) - position);
 
-            GameObject splish = Instantiate(splash, position, rotation) as GameObject;
-            Destroy(splish, lifetime + 0.3f);
+            if (splash)
+            {
+                GameObject splish = Instantiate(splash, position, rotation) as GameObject;
+                Destroy(splish, lifetime + 0.3f);
+            }
         }
     }
 
