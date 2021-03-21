@@ -38,6 +38,8 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            FindObjectOfType<GameManager>().audioMixer.SetFloat("musicPitch", 1f);
+
             if (!CheckerForHasStartedTheRealGameOnce.instance.hasStartedTheRealGameOnce)
                 SceneManager.LoadScene("SethScene-init");
             else
