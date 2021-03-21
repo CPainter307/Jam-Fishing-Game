@@ -13,7 +13,7 @@ public class RopeBridge : MonoBehaviour
     public float scaleFactor = 100f;
     // public int segmentLength = 35;
     private int maxSegmentLength = 35;
-    private float lineWidth = 0.1f;
+    public float lineWidth = 0.1f;
 
     // Use this for initialization
     void Start()

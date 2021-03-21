@@ -61,8 +61,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9f763c392e64c4bab921e99504943e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 2050453964177170526}
-  endPoint: {fileID: 2047548875307193982}
+  reelCircle: {fileID: 0}
+  pole: {fileID: 0}
+  boat: {fileID: 0}
+  player: {fileID: 0}
+  ropeBridge: {fileID: 0}
+  vcam: {fileID: 0}
+  reeling: 0
+  reelInSpeed: 0.8
+  reelOutSpeed: 5
+  maxReel: 3
+  minReel: 9
+  zoom: 2
+  minZoom: 20
+  frontTorqueHandicap: 2
+  isAtMaxReel: 0
+  loseTimer: 0
+  maxLoseTimer: 3
+  realGameHasStarted: 1
+  fishSprite: {fileID: 0}
+  theBigOnePrefab: {fileID: 0}
+  fishes: []
 --- !u!1001 &2045774035490684256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -139,15 +158,5 @@ PrefabInstance:
 --- !u!4 &2050572697315582584 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4808875396013848, guid: 8703e2e0866d5ba4fb19466e9cc5daa9, type: 3}
-  m_PrefabInstance: {fileID: 2045774035490684256}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2047548875307193982 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4035757308914462, guid: 8703e2e0866d5ba4fb19466e9cc5daa9, type: 3}
-  m_PrefabInstance: {fileID: 2045774035490684256}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2050453964177170526 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4681313415191870, guid: 8703e2e0866d5ba4fb19466e9cc5daa9, type: 3}
   m_PrefabInstance: {fileID: 2045774035490684256}
   m_PrefabAsset: {fileID: 0}

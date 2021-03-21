@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,11 @@ public class PlayerLineController : MonoBehaviour
     public float reelInSpeed = 5f;
     public float reelOutSpeed = 15f;
 
+    private int amountOfFakeFishReeled = 0;
+
     private IEnumerator co;
+
+    private FakeReeler fakeReeler;
 
     public float maxReel = 5f;
     public float minReel = 20f;
@@ -33,6 +38,23 @@ public class PlayerLineController : MonoBehaviour
 
     public float loseTimer = 0f;
     public float maxLoseTimer = 3f;
+
+    public bool realGameHasStarted = false;
+
+    public SpriteRenderer fishSprite;
+
+    FishReeled fishReeled;
+
+    [System.Serializable]
+    public class FishReeled
+    {
+        public Sprite fishSprite;
+        public string fishName;
+    }
+
+    public GameObject theBigOnePrefab;
+
+    public FishReeled[] fishes;
 
     private void Awake()
     {
@@ -52,7 +74,8 @@ public class PlayerLineController : MonoBehaviour
         ReelingIn,
         ReelingOut,
         MaxReel,
-        MinReel
+        MinReel,
+        ReelingOutHoldFake
     }
 
     State currentState = State.None;
@@ -67,8 +90,6 @@ public class PlayerLineController : MonoBehaviour
 
     private void Update()
     {
-        followPlayer = player.attached;
-
         if (currentState == State.MaxReel)
         {
             loseTimer += Time.deltaTime;
@@ -82,58 +103,67 @@ public class PlayerLineController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float dist = Vector3.Distance(boat.GetComponent<Rigidbody2D>().position, reelCircle.transform.position);
-        if (dist > reelCircle.radius)
+        reeling = Input.GetButton("Jump");
+
+        if (realGameHasStarted)
         {
-            ropeBridge.scaleFactor = 100;
-            boat.GetComponent<Rigidbody2D>().position = reelCircle.ClosestPoint(boat.GetComponent<Rigidbody2D>().position);
+            float dist = Vector3.Distance(boat.GetComponent<Rigidbody2D>().position, reelCircle.transform.position);
+            if (dist > reelCircle.radius)
+            {
+                ropeBridge.scaleFactor = 100;
+                boat.GetComponent<Rigidbody2D>().position = reelCircle.ClosestPoint(boat.GetComponent<Rigidbody2D>().position);
+            }
+            else
+            {
+                ropeBridge.scaleFactor = -1;
+            }
+
+            FishBehavior fish = GameObject.FindObjectOfType<FishBehavior>();
+            if (fish == null) return;
+            RealGameReeling(fish);
         }
         else
         {
-            ropeBridge.scaleFactor = -1;
+            FakeReeler reeler = GameObject.FindObjectOfType<FakeReeler>();
+            if (reeler == null) return;
+            fakeReeler = reeler;
+            FakeGameReeling(reeler);
         }
-        // if (player.attached)
+    }
+
+    private void FakeGameReeling(FakeReeler reeler)
+    {
+        // if (Input.GetButtonUp("Jump"))
         // {
-        //     print("player attached");
-        //     dist = Vector3.Distance(boat.GetComponent<Rigidbody2D>().position, reelCircle.transform.position);
-        //     if (dist > reelCircle.radius)
-        //     {
-        //         ropeBridge.scaleFactor = 100;
-        //         boat.GetComponent<Rigidbody2D>().position = reelCircle.ClosestPoint(boat.GetComponent<Rigidbody2D>().position);
-        //     }
-        //     else
-        //     {
-        //         ropeBridge.scaleFactor = -1;
-        //     }
-        // }
-        // else if (!player.attached)
-        // {
-        //     print("player not attached");
-        //     dist = Vector3.Distance(player.GetComponent<Rigidbody2D>().position, reelCircle.transform.position);
-        //     if (dist > reelCircle.radius)
-        //     {
-        //         ropeBridge.scaleFactor = 100;
-        //         player.GetComponent<Rigidbody2D>().position = reelCircle.ClosestPoint(player.GetComponent<Rigidbody2D>().position);
-        //     }
-        //     else
-        //     {
-        //         ropeBridge.scaleFactor = -1;
-        //     }
+        //     SetState(State.ReelingOutHoldFake);
         // }
 
-        reeling = Input.GetButton("Jump");
+        if (!reeling)
+        {
+            // LeanTween.cancelAll(fakeReeler.gameObject);
+        }
+        else
+        {
+            if (currentState == State.ReelingOutHoldFake)
+            {
+                LeanTween.moveLocalY(fakeReeler.gameObject, 0.0f, 1.0f).setOnComplete(FishReeledComplete);
+            }
+            else
+            {
+                SetState(State.ReelingOut);
+            }
+        }
+    }
 
-        FishBehavior fish = GameObject.FindObjectOfType<FishBehavior>();
-
-        if (fish == null) return;
-
+    private void RealGameReeling(FishBehavior fish)
+    {
         if (!reeling)
         {
             if (reelCircle.radius < minReel)
             {
                 SetState(State.ReelingIn);
                 reelCircle.radius += reelOutSpeed * Time.fixedDeltaTime;
-                GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, reelOutSpeed * Time.fixedDeltaTime);
+                GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, (reelOutSpeed / 4.5f) * Time.fixedDeltaTime);
             }
             else
             {
@@ -148,10 +178,11 @@ public class PlayerLineController : MonoBehaviour
             {
                 SetState(State.ReelingOut);
                 reelCircle.radius -= reelInSpeed * Time.fixedDeltaTime;
-                GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, reelInSpeed * Time.fixedDeltaTime);
+                GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, (reelInSpeed / 4.5f) * Time.fixedDeltaTime);
             }
             else
             {
+                print("test");
                 SetState(State.MinReel);
                 GameManager.instance.UpdateReelUI(reelCircle.radius, currentState, 0.0f);
             }
@@ -181,7 +212,66 @@ public class PlayerLineController : MonoBehaviour
 
             case State.MaxReel:
                 break;
+
+            case State.ReelingOut:
+                if (!realGameHasStarted)
+                {
+                    LeanTween.moveLocalY(fakeReeler.gameObject, -20.0f, 1.0f).setOnComplete(OnCompleteMoveBack);
+                    GameManager.instance.ResetFishOverlay();
+                    fishSprite.sprite = null;
+                    //LeanTween.moveLocalY(fakeReeler.gameObject, 0.0f, 1.0f);
+                }
+                break;
+            case State.ReelingOutHoldFake:
+                if (!realGameHasStarted)
+                {
+
+                }
+                break;
+
+            case State.ReelingIn:
+                break;
         }
+    }
+
+    void OnCompleteMoveBack()
+    {
+        SetState(State.ReelingOutHoldFake);
+
+        fishReeled = fishes[UnityEngine.Random.Range(0, fishes.Length)];
+
+        fishSprite.sprite = fishReeled.fishSprite;
+        GameManager.instance.SetFishSprite(fishSprite.sprite);
+
+        if (amountOfFakeFishReeled > 2)
+        {
+            if (UnityEngine.Random.Range(0, 1) == 0)
+            {
+                StartRealGame();
+            }
+        }
+        amountOfFakeFishReeled++;
+    }
+
+    private void StartRealGame()
+    {
+        GameObject go = transform.parent.gameObject;
+        transform.parent = null;
+        Destroy(go);
+        GameObject theBigOne = Instantiate(theBigOnePrefab, transform.position, Quaternion.identity);
+
+        transform.parent = theBigOne.transform;
+
+        realGameHasStarted = true;
+
+        CheckerForHasStartedTheRealGameOnce.instance.hasStartedTheRealGameOnce = true;
+    }
+
+    void FishReeledComplete()
+    {
+        SetState(State.None);
+
+        GameManager.instance.SetFishText(fishReeled.fishName);
     }
 
     private void OnDestroy()

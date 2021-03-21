@@ -38,7 +38,10 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene("SethScene");
+            if (!CheckerForHasStartedTheRealGameOnce.instance.hasStartedTheRealGameOnce)
+                SceneManager.LoadScene("SethScene-init");
+            else
+                SceneManager.LoadScene("SethScene");
         }
     }
 

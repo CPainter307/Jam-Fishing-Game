@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private bool gameEnded = false;
 
     public string fishName = "The Big One";
+    public Sprite fishSprite;
 
     private void Awake()
     {
@@ -33,8 +34,9 @@ public class GameManager : MonoBehaviour
         {
             print("Destroying existing singleton");
         }
-
         FadeIn();
+
+        StartState();
     }
 
     public void FadeIn()
@@ -54,11 +56,27 @@ public class GameManager : MonoBehaviour
         GameObject.FindObjectOfType<PlayerBehavior>().godMode = true;
 
         gameEnded = true;
-
-        FishCanvas.GetComponentInChildren<UnityEngine.UI.Text>().text = "You Caught " + fishName + "!";
-        LeanTween.alphaCanvas(FishCanvas.GetComponent<CanvasGroup>(), 1f, 1.0f);
+        SetFishText(fishName);
+        SetFishSprite(fishSprite);
 
         Destroy(GameObject.FindObjectOfType<FishBehavior>().gameObject);
+    }
+
+    public void SetFishSprite(Sprite fishSprite)
+    {
+        FishCanvas.GetComponentInChildren<UnityEngine.UI.Image>().sprite = fishSprite;
+    }
+
+    public void SetFishText(string fishName)
+    {
+        FishCanvas.GetComponentInChildren<UnityEngine.UI.Text>().text = "You Caught " + fishName + "!";
+        LeanTween.alphaCanvas(FishCanvas.GetComponent<CanvasGroup>(), 1f, 1.0f);
+    }
+
+    public void ResetFishOverlay()
+    {
+        LeanTween.cancel(FishCanvas.gameObject);
+        LeanTween.alphaCanvas(FishCanvas.GetComponent<CanvasGroup>(), 0f, .2f);
     }
 
     public void TriggerLose()
@@ -123,7 +141,10 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene("SethScene");
+                if (!CheckerForHasStartedTheRealGameOnce.instance.hasStartedTheRealGameOnce)
+                    SceneManager.LoadScene("SethScene-init");
+                else
+                    SceneManager.LoadScene("SethScene");
             }
         }
     }

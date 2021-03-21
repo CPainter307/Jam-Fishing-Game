@@ -102,6 +102,8 @@ public class FishBehavior : MonoBehaviour
         attackTimeThird = ((nextAttackTime - minNextAttackTime) / 3f);
 
         rigidbody = GetComponent<Rigidbody2D>();
+
+        rigidbody.position = new Vector2(rigidbody.position.x + 9.0f, 0.0f);
     }
 
     // Update is called once per frame
