@@ -61,6 +61,7 @@ public class PlayerLineController : MonoBehaviour
 
     public bool lineUp = true;
     public bool fishOnTheLine;
+    public bool bigOneOnTheLine = false;
 
     bool controllable = true;
 
@@ -243,6 +244,11 @@ public class PlayerLineController : MonoBehaviour
                         {
                             SetState(State.ReelingIn);
                         }
+
+                        if (bigOneOnTheLine && reelerPosition.position.y >= -5f)
+                        {
+                            StartRealGame();
+                        }
                     }
                     else
                     {
@@ -417,7 +423,7 @@ public class PlayerLineController : MonoBehaviour
 
     void OnCompleteMoveBack()
     {
-        fishReeled = fishes[UnityEngine.Random.Range(0, fishes.Length)];
+        fishReeled = fishes[UnityEngine.Random.Range(0, fishes.Length - 1)];
 
         fishSprite.sprite = fishReeled.fishSprite;
         GameManager.instance.SetFishSprite(fishSprite.sprite);
@@ -429,13 +435,18 @@ public class PlayerLineController : MonoBehaviour
             // ToDo - add better transition
             if (UnityEngine.Random.Range(0, 2) == 0)
             {
+                fishReeled = fishes[fishes.Length - 1];
+                fishSprite.sprite = fishReeled.fishSprite;
+                GameManager.instance.SetFishSprite(fishSprite.sprite);
                 FindObjectOfType<PlayerBehavior>().TriggerSurprise(false);
                 exclamation.SetActive(false);
                 Debug.Log("Reeled in the big one!");
-                StartRealGame();
+                StartCoroutine(FadeOut(music, 1.2f));
+                bigOneOnTheLine = true;
+                //StartRealGame();
             }
         }
-        amountOfFakeFishReeled++;
+
     }
 
     private void StartRealGame()
@@ -457,6 +468,7 @@ public class PlayerLineController : MonoBehaviour
     void FishReeledComplete()
     {
         SetState(State.None);
+        amountOfFakeFishReeled++;
         fishOnTheLine = false;
         lineUp = true;
         controllable = false;
@@ -535,6 +547,21 @@ public class PlayerLineController : MonoBehaviour
         fishOnTheLine = false;
         fishSprite.sprite = null;
         StartFishTimer();
+    }
+
+    public static IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
+    {
+        float startVolume = audioSource.volume;
+
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+
+            yield return null;
+        }
+
+        audioSource.Stop();
+        audioSource.volume = startVolume;
     }
 
 }
