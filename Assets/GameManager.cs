@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviour
         SetFishText(fishName);
         SetFishSprite(fishSprite);
 
+        FindObjectOfType<CameraController>().EnableSpeedParticles(false);
+
         Destroy(GameObject.FindObjectOfType<FishBehavior>().gameObject);
     }
 

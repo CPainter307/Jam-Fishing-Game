@@ -154,6 +154,7 @@ public class PlayerLineController : MonoBehaviour
         if (realGameHasStarted)
         {
             FindObjectOfType<RopeBridge>().scaleFactor = 100;
+            FindObjectOfType<CameraController>().EnableSpeedParticles(true);
         }
         else
         {

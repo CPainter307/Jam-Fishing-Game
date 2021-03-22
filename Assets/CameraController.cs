@@ -18,8 +18,8 @@ public class CameraController : MonoBehaviour
         
     }
 
-    public void EnableSpeedParticles()
+    public void EnableSpeedParticles(bool enable)
     {
-        speedParticles.active = true;
+        speedParticles.active = enable;
     }
 }
