@@ -110,15 +110,18 @@ public class GameManager : MonoBehaviour
 
         float reelInScaled = 15.0f;
         float reelOutScaled = reelSpeed * 1500.0f;
+
+        float reelSpeedScaled = reelSpeed / 1.5f;
+
         switch (reelState)
         {
             case PlayerLineController.State.ReelingOut:
                 ReelOutside.rectTransform.eulerAngles -= new Vector3(0, 0, reelInScaled);
-                ReelString.rectTransform.localScale += new Vector3(reelSpeed, reelSpeed);
+                ReelString.rectTransform.localScale += new Vector3(reelSpeedScaled, reelSpeedScaled);
                 break;
             case PlayerLineController.State.ReelingIn:
                 ReelOutside.rectTransform.eulerAngles += new Vector3(0, 0, reelOutScaled);
-                ReelString.rectTransform.localScale -= new Vector3(reelSpeed, reelSpeed);
+                ReelString.rectTransform.localScale -= new Vector3(reelSpeedScaled, reelSpeedScaled);
                 break;
             case PlayerLineController.State.MaxReel:
                 if (!LeanTween.isTweening(ReelOutside.rectTransform))
