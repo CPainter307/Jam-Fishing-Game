@@ -21,7 +21,7 @@ public class FishSpike : MonoBehaviour
 
     public void ShootSpike()
     {
-        rb.AddForce(forceToApply, ForceMode2D.Impulse);
+        rb.AddForce(forceToApply + new Vector2(0, Random.Range(-30, 50)), ForceMode2D.Impulse);
     }
 
     private void FixedUpdate() {

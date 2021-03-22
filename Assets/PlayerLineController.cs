@@ -435,7 +435,7 @@ public class PlayerLineController : MonoBehaviour
 
         fishOnTheLine = true;
 
-        if (amountOfFakeFishReeled > 2)
+        if (amountOfFakeFishReeled > 1)
         {
             // ToDo - add better transition
             if (UnityEngine.Random.Range(0, 1) == 0)

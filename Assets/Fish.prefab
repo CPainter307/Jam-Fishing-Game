@@ -480,15 +480,15 @@ MonoBehaviour:
   minNextAttackTime: 2
   attack01Time: 7
   attack02Time: 5
-  attack03Time: 4
+  attack03Time: 6
   preAttackRangeLow: 0
   preAttackRangeHigh: 0
-  moveSpeed: 200
+  moveSpeed: 75
   bobAmount: 0.2
   jumpForce: 60
   tailPosition: {fileID: 7934287122120583194}
   splashStrength: 50
-  maxXVelocity: 200
+  maxXVelocity: 400
   maxDepth: -3
   player: {fileID: 0}
   spikePrefab: {fileID: 8875154104654701747, guid: c9aad84b94ddb6a45b32c44b86a2c392, type: 3}

@@ -251,7 +251,7 @@ public class FishBehavior : MonoBehaviour
 
     void SelectFishAttack()
     {
-        //attackID = Random.Range(1, 2);
+        //attackID = Random.Range(2, 3);
         attackID = Random.Range(0, 3);
     }
 
@@ -310,11 +310,11 @@ public class FishBehavior : MonoBehaviour
     IEnumerator SplashTimed()
     {
         DoSplash();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         DoSplash();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         DoSplash();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         DoSplash();
     }
 
@@ -371,16 +371,16 @@ public class FishBehavior : MonoBehaviour
 
     public IEnumerator SpikeSpawn()
     {
-        if (rigidbody.position.y > 1.0f)
+        if (rigidbody.position.y >= 0.0f)
             Instantiate(spikePrefab, spikeSpawnPositions[0]);
         yield return new WaitForSeconds(.5f);
-        if (rigidbody.position.y > 1.0f)
+        if (rigidbody.position.y >= 0.0f)
             Instantiate(spikePrefab, spikeSpawnPositions[1]);
         yield return new WaitForSeconds(.5f);
-        if (rigidbody.position.y > 1.0f)
+        if (rigidbody.position.y >= 0.0f)
             Instantiate(spikePrefab, spikeSpawnPositions[2]);
         yield return new WaitForSeconds(.5f);
-        if (rigidbody.position.y > 1.0f)
+        if (rigidbody.position.y >= 0.0f)
             Instantiate(spikePrefab, spikeSpawnPositions[0]);
     }
 
