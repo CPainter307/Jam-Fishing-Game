@@ -164,7 +164,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
+        //For some reason you have to set the font size to 0 and then 28 again
+        //otherwise it's stupid big but only the first time you play it
+        //whywhywhywhywhywhywhywhywhywhywhywhywhy
+        LosingText.fontSize = 0;
+        LosingText.fontSize = 28;
         if (Input.GetKeyDown(KeyCode.P))
         {
             TriggerWin();
