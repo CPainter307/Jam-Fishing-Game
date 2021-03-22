@@ -436,7 +436,7 @@ public class PlayerLineController : MonoBehaviour
         if (amountOfFakeFishReeled > 2)
         {
             // ToDo - add better transition
-            if (UnityEngine.Random.Range(0, 2) == 0)
+            if (UnityEngine.Random.Range(0, 1) == 0)
             {
                 fishReeled = fishes[fishes.Length - 1];
                 fishSprite.sprite = fishReeled.fishSprite;
