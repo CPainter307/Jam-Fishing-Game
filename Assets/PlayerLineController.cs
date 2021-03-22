@@ -155,7 +155,7 @@ public class PlayerLineController : MonoBehaviour
 
         if (realGameHasStarted)
         {
-            FindObjectOfType<RopeBridge>().scaleFactor = 100;
+            FindObjectOfType<RopeBridge>().scaleFactor = ropeBridge.scaleAmount;
             FindObjectOfType<CameraController>().EnableSpeedParticles(true);
         }
         else
@@ -189,7 +189,7 @@ public class PlayerLineController : MonoBehaviour
             float dist = Vector3.Distance(boat.GetComponent<Rigidbody2D>().position, reelCircle.transform.position);
             if (dist > reelCircle.radius)
             {
-                ropeBridge.scaleFactor = 100;
+                ropeBridge.scaleFactor = ropeBridge.scaleAmount;
                 boat.GetComponent<Rigidbody2D>().position = reelCircle.ClosestPoint(boat.GetComponent<Rigidbody2D>().position);
             }
             else

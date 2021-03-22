@@ -11,6 +11,7 @@ public class RopeBridge : MonoBehaviour
     private List<RopeSegment> ropeSegments = new List<RopeSegment>();
     private float ropeSegLen = 0.0025f;
     public float scaleFactor = 100f;
+    public float scaleAmount = 50f;
     // public int segmentLength = 35;
     private int maxSegmentLength = 35;
     public float lineWidth = 0.1f;
