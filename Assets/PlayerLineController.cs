@@ -91,6 +91,8 @@ public class PlayerLineController : MonoBehaviour
 
     public GameObject timer;
 
+    public Animator reelAnimator;
+
     bool releasing;
 
     private void Awake()
@@ -217,6 +219,8 @@ public class PlayerLineController : MonoBehaviour
                 {
                     if (reeling)
                     {
+                        reelAnimator.SetBool("Reeling", true);
+                        reelAnimator.SetBool("ReelStill", false);
                         StopFishTimer();
                         StopEscapeTimer();
                         if (FindObjectOfType<PlayerBehavior>().GetSurprise() == true)
@@ -233,6 +237,7 @@ public class PlayerLineController : MonoBehaviour
                         reelerPosition.position = new Vector3(reelerPosition.position.x, reelerPosition.position.y + 0.1f, reelerPosition.position.z);
                         if (reelerPosition.position.y >= 0f)
                         {
+                            reelAnimator.SetBool("ReelStill", true);
                             if (fishOnTheLine)
                             {
                                 FishReeledComplete();
@@ -257,6 +262,8 @@ public class PlayerLineController : MonoBehaviour
                     }
                     else
                     {
+                        reelAnimator.SetBool("Reeling", false);
+                        reelAnimator.SetBool("ReelStill", false);
                         if (audioSource.clip != reelingOut)
                         {
                             audioSource.Stop();
@@ -266,6 +273,7 @@ public class PlayerLineController : MonoBehaviour
                         reelerPosition.position = new Vector3(reelerPosition.position.x, reelerPosition.position.y - 0.1f, reelerPosition.position.z);
                         if (reelerPosition.position.y < -20f)
                         {
+                            reelAnimator.SetBool("ReelStill", true);
                             reelerPosition.position = new Vector3(reelerPosition.position.x, -20f, reelerPosition.position.z);
                             audioSource.Stop();
                             if (currentState != State.MaxReel)
@@ -383,9 +391,11 @@ public class PlayerLineController : MonoBehaviour
                 break;
 
             case State.MinReel:
+                reelAnimator.SetBool("ReelStill", true);
                 break;
 
             case State.MaxReel:
+                reelAnimator.SetBool("ReelStill", true);
                 break;
 
             case State.ReelingOut:
@@ -398,6 +408,8 @@ public class PlayerLineController : MonoBehaviour
                     //GameManager.instance.ResetFishOverlay();
                     //fishSprite.sprite = null;
                     //LeanTween.moveLocalY(fakeReeler.gameObject, 0.0f, 1.0f);
+                    reelAnimator.SetBool("Reeling", false);
+                    reelAnimator.SetBool("ReelStill", false);
                 }
                 else
                 {
@@ -415,7 +427,8 @@ public class PlayerLineController : MonoBehaviour
             case State.ReelingIn:
                 if (!realGameHasStarted)
                 {
-
+                    reelAnimator.SetBool("Reeling", true);
+                    reelAnimator.SetBool("ReelStill", false);
                 }
                 else
                 {

@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject timer;
 
+    public Animator playerAnimator;
+
     private void Awake()
     {
         if (instance == null)
@@ -105,6 +107,8 @@ public class GameManager : MonoBehaviour
     {
         timer.GetComponent<GameTimer>().StopTimer();
         mixerStartTime = Time.time;
+
+        playerAnimator.SetBool("Dead", true);
         
         gameEnded = true;
 

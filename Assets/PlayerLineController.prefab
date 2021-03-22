@@ -94,7 +94,6 @@ MonoBehaviour:
   fishOnTheLine: 0
   bigOneOnTheLine: 0
   theBigOnePrefab: {fileID: 0}
-  timerPrefab: {fileID: 0}
   fishes:
   - fishSprite: {fileID: 21300000, guid: 7dd5ea38edb832b45aa7fc83a31f186d, type: 3}
     fishName: Bass
@@ -110,6 +109,7 @@ MonoBehaviour:
   playerSounds: {fileID: 0}
   surprisedSound: {fileID: 0}
   exclamation: {fileID: 0}
+  timer: {fileID: 0}
 --- !u!82 &5888362973763840431
 AudioSource:
   m_ObjectHideFlags: 0
