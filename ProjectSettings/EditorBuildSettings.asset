@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuScene.unity
     guid: 68a428393d9696443b72aa58c59aaa39
   - enabled: 1
-    path: Assets/Scenes/SethScene.unity
-    guid: ea02ce402e74f684da528c23ca8bb2af
-  - enabled: 1
     path: Assets/Scenes/SethScene-init.unity
     guid: 468061d019e28d142a6d51e53c23f4f0
+  - enabled: 1
+    path: Assets/Scenes/SethScene.unity
+    guid: ea02ce402e74f684da528c23ca8bb2af
   m_configObjects: {}

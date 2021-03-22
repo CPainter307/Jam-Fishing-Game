@@ -10,8 +10,11 @@ public class GameManager : MonoBehaviour
 
     public Canvas GameCanvas;
     public Canvas FishCanvas;
+    public Canvas ReelCanvas;
+    public GameObject HealthCanvas;
     public CanvasGroup BigFade;
     public UnityEngine.UI.Text BigText;
+    public UnityEngine.UI.Text RetryText;
 
     public UnityEngine.UI.Text LosingText;
     public UnityEngine.UI.Image ReelString;
@@ -58,7 +61,6 @@ public class GameManager : MonoBehaviour
         LeanTween.alphaCanvas(BigFade, 1f, 2.0f);
     }
 
-
     public void TriggerWin()
     {
         if (GameObject.FindObjectOfType<PlayerBehavior>().dead) return;
@@ -101,8 +103,16 @@ public class GameManager : MonoBehaviour
         gameEnded = true;
 
         BigText.gameObject.active = true;
+        RetryText.gameObject.active = true;
         BigText.text = "You Couldn't Catch\n The Big One...";
         
+    }
+
+    public void HideReelUI(bool hide)
+    {
+        ReelCanvas.enabled = !hide;
+        if (HealthCanvas)
+            HealthCanvas.SetActive(!hide);
     }
 
     public void UpdateReelUI(float reelSize, PlayerLineController.State reelState, float reelSpeed)
@@ -136,6 +146,7 @@ public class GameManager : MonoBehaviour
                 if (!LeanTween.isTweening(ReelOutside.rectTransform))
                 {
                     LeanTween.move(ReelOutside.rectTransform, new Vector3(1.3f, 1f), .05f).setLoopPingPong().setEaseInOutSine();
+                    LeanTween.move(ReelString.rectTransform, new Vector3(1.3f, 1f), .05f).setLoopPingPong().setEaseInOutSine();
                     LeanTween.color(ReelOutside.rectTransform, new Color(1f, 1f, 1f, .5f), .1f);
                 }
                 break;
@@ -153,6 +164,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             TriggerWin();

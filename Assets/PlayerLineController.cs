@@ -157,9 +157,11 @@ public class PlayerLineController : MonoBehaviour
         {
             FindObjectOfType<RopeBridge>().scaleFactor = ropeBridge.scaleAmount;
             FindObjectOfType<CameraController>().EnableSpeedParticles(true);
+            GameManager.instance.HideReelUI(false);
         }
         else
         {
+            GameManager.instance.HideReelUI(true);
             FindObjectOfType<RopeBridge>().scaleFactor = 0;
             if (lineUp && controllable)
             {

@@ -8,10 +8,16 @@ public class CloudSpawner : MonoBehaviour
 
     public Sprite[] sprites;
 
+    bool startedSpawn = false;
+
     // Start is called before the first frame update
-    void Start()
+    void Update()
     {
-        StartCoroutine(SpawnCloud());
+        if (GameObject.FindObjectOfType<PlayerLineController>().realGameHasStarted && !startedSpawn)
+        {
+            StartCoroutine(SpawnCloud());
+            startedSpawn = true;
+        }
     }
 
     IEnumerator SpawnCloud()
@@ -19,6 +25,7 @@ public class CloudSpawner : MonoBehaviour
         yield return new WaitForSeconds(UnityEngine.Random.Range(1, 3));
         GameObject go = Instantiate(cloudPrefab, transform.position, Quaternion.identity);
         go.GetComponent<SpriteRenderer>().sprite = sprites[UnityEngine.Random.Range(0, sprites.Length)];
+        Destroy(go, 5.0f);
         StartCoroutine(SpawnCloud());
     }
 }
