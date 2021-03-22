@@ -179,10 +179,10 @@ public class GameManager : MonoBehaviour
         //whywhywhywhywhywhywhywhywhywhywhywhywhy
         LosingText.fontSize = 0;
         LosingText.fontSize = 28;
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TriggerWin();
-        }
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     TriggerWin();
+        // }
 
         if (gameEnded && !gameWon)
         {

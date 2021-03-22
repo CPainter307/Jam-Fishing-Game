@@ -8,6 +8,9 @@ public class MainMenu : MonoBehaviour
 {
     public RectTransform title;
 
+    GameObject currentButton;
+    EventSystem eventSystem;
+
     // Start is called before the first frame update
     public void PlayGame()
     {
@@ -26,5 +29,10 @@ public class MainMenu : MonoBehaviour
     void Rot()
     {
         LeanTween.rotateZ(title.gameObject, -5f, .5f).setOnComplete(RotStart).setEaseInOutSine();
+    }
+
+    private void Update() {
+        if (Input.GetMouseButtonDown(0))
+            EventSystem.current.SetSelectedGameObject(GameObject.FindObjectOfType<UnityEngine.UI.Button>().gameObject);
     }
 }

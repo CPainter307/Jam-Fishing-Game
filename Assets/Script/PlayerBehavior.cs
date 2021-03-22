@@ -79,11 +79,15 @@ public class PlayerBehavior : MonoBehaviour
             }
             playerBody.simulated = false;
             transform.parent = boatCollider.transform;
+
+
         }
         else
         {
             playerBody.simulated = true;
             transform.parent = null;
+
+            playerBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
     }
 
