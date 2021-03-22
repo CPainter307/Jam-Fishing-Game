@@ -126,6 +126,11 @@ public class PlayerLineController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         co = StartReelLose();
+
+        if (!realGameHasStarted)
+        {
+            reelAnimator.SetBool("ReelStill", true);
+        }
     }
 
     private void Update()
@@ -163,6 +168,7 @@ public class PlayerLineController : MonoBehaviour
         }
         else
         {
+
             GameManager.instance.HideReelUI(true);
             FindObjectOfType<RopeBridge>().scaleFactor = 0;
             if (lineUp && controllable)
@@ -187,6 +193,13 @@ public class PlayerLineController : MonoBehaviour
     private void FixedUpdate()
     {
         reeling = Input.GetButton("Jump");
+
+ 
+        if (reeling && realGameHasStarted)
+        {
+            reelAnimator.SetBool("ReelStill", false);
+        }
+    
 
         if (realGameHasStarted)
         {
@@ -257,6 +270,8 @@ public class PlayerLineController : MonoBehaviour
 
                         if (bigOneOnTheLine && reelerPosition.position.y >= -5f)
                         {
+                            FindObjectOfType<PlayerBehavior>().TriggerSurprise(false);
+                            exclamation.SetActive(false);
                             StartRealGame();
                         }
                     }
@@ -456,8 +471,7 @@ public class PlayerLineController : MonoBehaviour
                 fishReeled = fishes[fishes.Length - 1];
                 fishSprite.sprite = fishReeled.fishSprite;
                 GameManager.instance.SetFishSprite(fishSprite.sprite);
-                FindObjectOfType<PlayerBehavior>().TriggerSurprise(false);
-                exclamation.SetActive(false);
+                fishEscapeTimer = 100f;
                 Debug.Log("Reeled in the big one!");
                 StartCoroutine(FadeOut(music, 1.2f));
                 bigOneOnTheLine = true;
@@ -488,6 +502,7 @@ public class PlayerLineController : MonoBehaviour
     {
         SetState(State.None);
         amountOfFakeFishReeled++;
+        reelAnimator.SetBool("ReelStill", true);
         fishOnTheLine = false;
         lineUp = true;
         controllable = false;
