@@ -89,6 +89,8 @@ public class PlayerLineController : MonoBehaviour
 
     public GameObject exclamation;
 
+    public GameObject timer;
+
     bool releasing;
 
     private void Awake()
@@ -460,6 +462,7 @@ public class PlayerLineController : MonoBehaviour
         GameObject theBigOne = Instantiate(theBigOnePrefab, transform.position, Quaternion.identity);
 
         transform.parent = theBigOne.transform;
+        timer.SetActive(true);
 
         realGameHasStarted = true;
 

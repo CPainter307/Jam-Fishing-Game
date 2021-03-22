@@ -84,11 +84,32 @@ MonoBehaviour:
   music: {fileID: 0}
   calmTheme: {fileID: 0}
   extremeTheme: {fileID: 0}
+  fishTimer: 0
+  minFishTimer: 0
+  maxFishTimer: 0
+  fishEscapeTimer: 3
+  fishTimerRunning: 0
+  escapeTimerRunning: 0
+  lineUp: 1
+  fishOnTheLine: 0
+  bigOneOnTheLine: 0
   theBigOnePrefab: {fileID: 0}
-  fishes: []
+  timerPrefab: {fileID: 0}
+  fishes:
+  - fishSprite: {fileID: 21300000, guid: 7dd5ea38edb832b45aa7fc83a31f186d, type: 3}
+    fishName: Bass
+  - fishSprite: {fileID: 21300000, guid: 3d0d6b74e36aae44cb4d4821ee2f76f9, type: 3}
+    fishName: Salmon
+  - fishSprite: {fileID: 21300000, guid: 83138327ba1addd4cbb16722df96df3e, type: 3}
+    fishName: Koi
+  - fishSprite: {fileID: 21300000, guid: 5be9dbccb54bcbc4086bc866dc2394af, type: 3}
+    fishName: The Big One
   reelingIn: {fileID: 8300000, guid: 7e827ed6a4e927d41ab71d4c2b7e1e84, type: 3}
   reelingOut: {fileID: 8300000, guid: d341c1ab26052254a9d6274318fa5675, type: 3}
   deployRod: {fileID: 0}
+  playerSounds: {fileID: 0}
+  surprisedSound: {fileID: 0}
+  exclamation: {fileID: 0}
 --- !u!82 &5888362973763840431
 AudioSource:
   m_ObjectHideFlags: 0

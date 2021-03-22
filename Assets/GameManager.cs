@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     float mixerStartTime;
     float audioPitch;
 
+    public GameObject timer;
+
     private void Awake()
     {
         if (instance == null)
@@ -60,12 +62,14 @@ public class GameManager : MonoBehaviour
     public void TriggerWin()
     {
         if (GameObject.FindObjectOfType<PlayerBehavior>().dead) return;
+        timer.GetComponent<GameTimer>().StopTimer();
 
         GameObject.FindObjectOfType<PlayerBehavior>().godMode = true;
 
         gameEnded = true;
         SetFishText(fishName);
         SetFishSprite(fishSprite);
+        print("Time Taken: " + timer.GetComponent<GameTimer>().timeElapsed);
 
         FindObjectOfType<CameraController>().EnableSpeedParticles(false);
 
@@ -91,12 +95,14 @@ public class GameManager : MonoBehaviour
 
     public void TriggerLose()
     {
+        timer.GetComponent<GameTimer>().StopTimer();
         mixerStartTime = Time.time;
-
+        
         gameEnded = true;
 
         BigText.gameObject.active = true;
         BigText.text = "You Couldn't Catch\n The Big One...";
+        
     }
 
     public void UpdateReelUI(float reelSize, PlayerLineController.State reelState, float reelSpeed)
