@@ -118,7 +118,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4493564015054331827}
   m_LocalRotation: {x: -0, y: -0, z: -0.10281296, w: 0.99470073}
-  m_LocalPosition: {x: -0.1, y: 0.54, z: 1}
+  m_LocalPosition: {x: -0.17, y: 0.11, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2641169558004832545}
@@ -200,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6793907855059005517}
   m_LocalRotation: {x: -0, y: -0, z: 0.057901703, w: 0.9983223}
-  m_LocalPosition: {x: -0.03, y: 0.47, z: 1}
+  m_LocalPosition: {x: 0.07, y: 0.04, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9126505347602705106}
@@ -282,7 +282,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7301941655186117517}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0.24, y: -0.48, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 853804001222952185}
@@ -383,6 +383,7 @@ GameObject:
   - component: {fileID: 375430387}
   - component: {fileID: 375430386}
   - component: {fileID: 158377734254918799}
+  - component: {fileID: 8904452908310097949}
   m_Layer: 6
   m_Name: Fish
   m_TagString: Untagged
@@ -533,7 +534,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.17930222, y: -0.17161798}
+  m_Offset: {x: 0.27125168, y: -0.46418476}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -544,7 +545,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.8649058, y: 0.7183989}
+  m_Size: {x: 8.097668, y: 1.8385105}
   m_EdgeRadius: 0
 --- !u!82 &158377734254918799
 AudioSource:
@@ -642,6 +643,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &8904452908310097949
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8043813480849845544}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 920025b669d9e3140b52f9f96d19faed, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &852564628485226553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -663,11 +683,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6488718701324493776, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.232
+      value: -4.17
       objectReference: {fileID: 0}
     - target: {fileID: 6488718701324493776, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.176
+      value: -0.41
       objectReference: {fileID: 0}
     - target: {fileID: 6488718701324493776, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -733,11 +753,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6488718701324493776, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.849
+      value: 5.21
       objectReference: {fileID: 0}
     - target: {fileID: 6488718701324493776, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.148
+      value: -0.42
       objectReference: {fileID: 0}
     - target: {fileID: 6488718701324493776, guid: 34d8d933b7a1179479854dd5a2118eb1, type: 3}
       propertyPath: m_LocalPosition.z
