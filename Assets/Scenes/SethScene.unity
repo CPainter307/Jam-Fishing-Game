@@ -291,7 +291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418647933}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5306487, y: -0.15000004, z: -9}
+  m_LocalPosition: {x: 4.944971, y: -0.15000004, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 601327448}
@@ -788,6 +788,10 @@ PrefabInstance:
       propertyPath: extremeTheme
       value: 
       objectReference: {fileID: 8300000, guid: 2f264709f39f03343a64b2d25e27ec50, type: 3}
+    - target: {fileID: 2171488498997024951, guid: 7be70df4330b85944a05d52e52556906, type: 3}
+      propertyPath: victoryTheme
+      value: 
+      objectReference: {fileID: 8300000, guid: 2352d4212b0f76f469173c915cc13637, type: 3}
     - target: {fileID: 7602141604385816726, guid: 7be70df4330b85944a05d52e52556906, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -1079,7 +1083,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1810116414263624442, guid: 0a561220c7fa67f46891afb7d5d3eb1b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.5306487
+      value: 4.944971
       objectReference: {fileID: 0}
     - target: {fileID: 1810116414263624442, guid: 0a561220c7fa67f46891afb7d5d3eb1b, type: 3}
       propertyPath: m_LocalPosition.y

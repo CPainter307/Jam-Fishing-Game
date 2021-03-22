@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public float maxStringScale = 1.0f;
 
     private bool gameEnded = false;
+    private bool gameWon = false;
 
     public string fishName = "The Big One";
     public Sprite fishSprite;
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
     public AudioSource music;
     public AudioClip calmTheme;
     public AudioClip extremeTheme;
+    public AudioClip victoryTheme;
     float mixerStartTime;
     float audioPitch;
 
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour
 
     public void TriggerWin()
     {
+        gameWon = true;
         if (GameObject.FindObjectOfType<PlayerBehavior>().dead) return;
         timer.GetComponent<GameTimer>().StopTimer();
 
@@ -76,6 +79,9 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<CameraController>().EnableSpeedParticles(false);
 
         Destroy(GameObject.FindObjectOfType<FishBehavior>().gameObject);
+        
+        music.clip = victoryTheme;
+        music.Play();
     }
 
     public void SetFishSprite(Sprite fishSprite)
@@ -174,7 +180,7 @@ public class GameManager : MonoBehaviour
             TriggerWin();
         }
 
-        if (gameEnded)
+        if (gameEnded && !gameWon)
         {
             // Happens even if you win - needs conditional
             audioMixer.GetFloat("musicPitch", out audioPitch);

@@ -25,6 +25,7 @@ public class CloudSpawner : MonoBehaviour
         yield return new WaitForSeconds(UnityEngine.Random.Range(1, 3));
         GameObject go = Instantiate(cloudPrefab, transform.position, Quaternion.identity);
         go.GetComponent<SpriteRenderer>().sprite = sprites[UnityEngine.Random.Range(0, sprites.Length)];
+        go.transform.position = new Vector3(transform.position.x, transform.position.y, 7);
         Destroy(go, 5.0f);
         StartCoroutine(SpawnCloud());
     }
